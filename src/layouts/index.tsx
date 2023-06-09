@@ -1,8 +1,8 @@
-import type { FC, PropsWithChildren } from 'react'
+import type { FC, PropsWithChildren } from "react";
 
-import Header from './header'
-import Footer from './footer'
-import { Col } from 'components'
+import Header from "./header";
+import Footer from "./footer";
+import { Col } from "components";
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -11,7 +11,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
       {children}
       <Footer />
     </Col>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
