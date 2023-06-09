@@ -70,7 +70,7 @@ const ProView = () => {
       <div className="">
         <h1>Count is: {count}</h1>
       </div>
-      {!wallet && (
+      {!wallet ? (
         <Row>
           <button onClick={() => connectWallet("keplr")} className="bg-slate-800 text-white px-4 py-2 rounded-md">
             Keplr
@@ -91,8 +91,7 @@ const ProView = () => {
             Fin
           </button>
         </Row>
-      )}
-      {wallet && (
+      ) : (
         <Row>
           <button onClick={incrementCounter} className="bg-slate-800 text-white px-4 py-2 rounded-md">
             +
