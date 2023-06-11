@@ -22,7 +22,7 @@ const Button: FC<PropsWithChildren & ButtonProps & ExtraTWClassProps> = ({
         isLoading || (disabled && "opacity-70 cursor-not-allowed")
       } h-[54px] px-[30px] rounded-full bg-primary_gradient uppercase font-bold text-[16px] text-white ${className}`}
     >
-      {isLoading ? <ClipLoader /> : children}
+      {isLoading ? <ClipLoader color="white" size={30} /> : children}
     </button>
   );
 };

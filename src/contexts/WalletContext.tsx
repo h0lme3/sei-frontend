@@ -4,11 +4,13 @@ import type { FC, PropsWithChildren } from "react";
 import { WalletConnect, connect } from "@sei-js/core";
 
 import { WalletConnectModal } from "components";
-import { chainId, getWalletInfo } from "utils";
+import { chainId, getWalletInfo, handleErrors } from "utils";
 import { WalletInfoProps } from "utils/types";
 
 // create context
 export const WalletContext = createContext({
+  isLoading: false,
+  setIsLoading: (value: boolean) => {},
   senderAddress: "",
   isWalletModalOpen: false,
   walletInfo: undefined as WalletInfoProps | undefined,
@@ -23,6 +25,7 @@ export interface WalletProviderProps extends PropsWithChildren {
 }
 
 export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect = false }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [senderAddress, setSenderAddress] = useState<string>("");
   const [wallet, setWallet] = useState<WalletConnect | null>(null);
   const [walletInfo, setWalletInfo] = useState<WalletInfoProps | undefined>(undefined);
@@ -42,13 +45,13 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
 
   const connectWallet = async (walletInfo: WalletInfoProps) => {
     try {
-      setWalletInfo(walletInfo);
-      localStorage.setItem("walletInfo", JSON.stringify(walletInfo));
       const wallet = await connect(walletInfo.name, chainId);
+      localStorage.setItem("walletInfo", JSON.stringify(walletInfo));
       setWallet(wallet);
+      setWalletInfo(walletInfo);
       setSenderAddress(wallet.accounts[0].address);
     } catch (error) {
-      console.error(error, "error");
+      handleErrors(error);
     } finally {
       closeWalletModal();
     }
@@ -61,6 +64,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
   return (
     <WalletContext.Provider
       value={{
+        isLoading,
+        setIsLoading,
         senderAddress,
         wallet,
         walletInfo,

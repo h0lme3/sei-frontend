@@ -17,3 +17,10 @@ export interface WalletInfoProps {
   name: WalletWindowKey;
   src: any;
 }
+
+export interface NotificationProps {
+  type?: string;
+  title: string;
+  message: string;
+  link?: string;
+}

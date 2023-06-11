@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 import { getSigningCosmWasmClient } from "@sei-js/core";
+import { FaPlus } from "react-icons/fa";
 
 import { Button, Col, Row } from "components";
 import { useWallet } from "contexts";
-import { executeContract, queryContract, rpcUrl } from "utils";
+import { executeContract, handleErrors, queryContract, rpcUrl } from "utils";
 
 const ProView = () => {
-  const { senderAddress, wallet } = useWallet();
+  const { isLoading, setIsLoading, senderAddress, wallet } = useWallet();
 
   const [count, setCount] = useState<number>(0);
   const [client, setClient] = useState<SigningCosmWasmClient>();
@@ -20,6 +21,7 @@ const ProView = () => {
   const fetchCount = async () => {
     if (wallet) {
       try {
+        setIsLoading(true);
         const msg = { get_count: {} };
         const client = await getSigningCosmWasmClient(rpcUrl, wallet.offlineSigner);
         const response = await queryContract(client, msg);
@@ -27,6 +29,8 @@ const ProView = () => {
         setCount(response.count);
       } catch (error) {
         console.log(error, "error");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -34,10 +38,11 @@ const ProView = () => {
   const incrementCounter = async () => {
     if (!client || !senderAddress) return;
     try {
+      setIsLoading(true);
       const msg = { increment: {} };
       await executeContract(client, senderAddress, msg);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      handleErrors(error);
     } finally {
       await fetchCount();
     }
@@ -46,11 +51,12 @@ const ProView = () => {
   const resetCounter = async () => {
     if (!client || !senderAddress) return;
     try {
+      setIsLoading(true);
       const msg = { reset: { count: 0 } };
       // unauthorized error
       await executeContract(client, senderAddress, msg);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      handleErrors(error);
     } finally {
       await fetchCount();
     }
@@ -58,16 +64,26 @@ const ProView = () => {
 
   return (
     <Col className="h-screen justify-center items-center">
-      <h1>Count is: {count}</h1>
       {wallet && (
-        <Row>
-          <Button action={incrementCounter} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            +
-          </Button>
-          <Button action={resetCounter} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            Reset
-          </Button>
-        </Row>
+        <>
+          <p className="text-[100px]">{count}</p>
+          <Row>
+            <Button
+              action={incrementCounter}
+              isLoading={isLoading}
+              className="bg-slate-800 text-white px-4 py-2 rounded-full"
+            >
+              <FaPlus size={25} />
+            </Button>
+            <Button
+              action={resetCounter}
+              isLoading={isLoading}
+              className="bg-slate-800 text-white px-4 py-2 rounded-full"
+            >
+              Reset
+            </Button>
+          </Row>
+        </>
       )}
     </Col>
   );
