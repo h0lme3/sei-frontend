@@ -9,7 +9,7 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
     <Col className="h-screen">
       <Header />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </Col>
   );
 };

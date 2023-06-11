@@ -1,16 +1,17 @@
 import type { AppProps } from "next/app";
 
-import { TempProvider } from "contexts";
+import Layout from "layouts";
+import { WalletProvider } from "contexts";
 
-import "styles/globals.scss";
+import "styles/globals.css";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <>
-      <TempProvider>
+    <WalletProvider autoConnect>
+      <Layout>
         <Component {...pageProps} />
-      </TempProvider>
-    </>
+      </Layout>
+    </WalletProvider>
   );
 };
 

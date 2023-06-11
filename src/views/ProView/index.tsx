@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { connect, getSigningCosmWasmClient, WalletConnect, WalletWindowKey } from "@sei-js/core";
 import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { getSigningCosmWasmClient } from "@sei-js/core";
 
-import { Col, Row } from "components";
-import { chainId, executeContract, queryContract, rpcEndpoint } from "utils";
+import { Button, Col, Row } from "components";
+import { useWallet } from "contexts";
+import { executeContract, queryContract, rpcUrl } from "utils";
 
 const ProView = () => {
+  const { senderAddress, wallet } = useWallet();
+
   const [count, setCount] = useState<number>(0);
   const [client, setClient] = useState<SigningCosmWasmClient>();
-  const [wallet, setWallet] = useState<WalletConnect>();
-  const [senderAddress, setSenderAddress] = useState<string>();
 
   useEffect(() => {
     fetchCount();
@@ -20,7 +21,7 @@ const ProView = () => {
     if (wallet) {
       try {
         const msg = { get_count: {} };
-        const client = await getSigningCosmWasmClient(rpcEndpoint, wallet.offlineSigner);
+        const client = await getSigningCosmWasmClient(rpcUrl, wallet.offlineSigner);
         const response = await queryContract(client, msg);
         setClient(client);
         setCount(response.count);
@@ -30,18 +31,8 @@ const ProView = () => {
     }
   };
 
-  const connectWallet = async (name: WalletWindowKey) => {
-    try {
-      const wallet = await connect(name, chainId);
-      setWallet(wallet);
-      setSenderAddress(wallet.accounts[0].address);
-    } catch (error) {
-      console.log(error, "error");
-    }
-  };
-
   const incrementCounter = async () => {
-    if (!wallet || !client || !senderAddress) return;
+    if (!client || !senderAddress) return;
     try {
       const msg = { increment: {} };
       await executeContract(client, senderAddress, msg);
@@ -53,7 +44,7 @@ const ProView = () => {
   };
 
   const resetCounter = async () => {
-    if (!wallet || !client || !senderAddress) return;
+    if (!client || !senderAddress) return;
     try {
       const msg = { reset: { count: 0 } };
       // unauthorized error
@@ -67,38 +58,15 @@ const ProView = () => {
 
   return (
     <Col className="h-screen justify-center items-center">
-      <div className="">
-        <h1>Count is: {count}</h1>
-      </div>
-      {!wallet ? (
+      <h1>Count is: {count}</h1>
+      {wallet && (
         <Row>
-          <button onClick={() => connectWallet("keplr")} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            Keplr
-          </button>
-          <button onClick={() => connectWallet("leap")} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            Leap
-          </button>
-          <button onClick={() => connectWallet("coin98")} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            Coin98
-          </button>
-          <button onClick={() => connectWallet("falcon")} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            Falcon
-          </button>
-          <button onClick={() => connectWallet("compass")} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            Compass
-          </button>
-          <button onClick={() => connectWallet("fin")} className="bg-slate-800 text-white px-4 py-2 rounded-md">
-            Fin
-          </button>
-        </Row>
-      ) : (
-        <Row>
-          <button onClick={incrementCounter} className="bg-slate-800 text-white px-4 py-2 rounded-md">
+          <Button action={incrementCounter} className="bg-slate-800 text-white px-4 py-2 rounded-md">
             +
-          </button>
-          <button onClick={resetCounter} className="bg-slate-800 text-white px-4 py-2 rounded-md">
+          </Button>
+          <Button action={resetCounter} className="bg-slate-800 text-white px-4 py-2 rounded-md">
             Reset
-          </button>
+          </Button>
         </Row>
       )}
     </Col>

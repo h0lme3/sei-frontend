@@ -1,7 +1,13 @@
 import React from "react";
 
+import { Row, WalletConnectButton } from "components";
+
 const Header = () => {
-  return <div className="p-4 bg-black text-white text-center">Header</div>;
+  return (
+    <Row className="p-4 self-end">
+      <WalletConnectButton />
+    </Row>
+  );
 };
 
 export default Header;
