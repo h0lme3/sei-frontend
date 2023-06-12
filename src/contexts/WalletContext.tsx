@@ -1,16 +1,14 @@
-import { createContext, useContext, useEffect, useState } from "react";
 import type { FC, PropsWithChildren } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 import { WalletConnect, connect } from "@sei-js/core";
 
 import { WalletConnectModal } from "components";
 import { chainId, getWalletInfo, handleErrors } from "utils";
-import { WalletInfoProps } from "utils/types";
+import type { WalletInfoProps } from "utils/types";
 
 // create context
 export const WalletContext = createContext({
-  isLoading: false,
-  setIsLoading: (value: boolean) => {},
   senderAddress: "",
   isWalletModalOpen: false,
   walletInfo: undefined as WalletInfoProps | undefined,
@@ -25,7 +23,6 @@ export interface WalletProviderProps extends PropsWithChildren {
 }
 
 export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect = false }) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [senderAddress, setSenderAddress] = useState<string>("");
   const [wallet, setWallet] = useState<WalletConnect | null>(null);
   const [walletInfo, setWalletInfo] = useState<WalletInfoProps | undefined>(undefined);
@@ -64,8 +61,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
   return (
     <WalletContext.Provider
       value={{
-        isLoading,
-        setIsLoading,
         senderAddress,
         wallet,
         walletInfo,

@@ -8,7 +8,7 @@ import tw from "tailwind-styled-components";
 import { Col, Row } from "components";
 import { useWallet } from "contexts";
 import { wallets } from "utils";
-import { WalletInfoProps } from "utils/types";
+import type { WalletInfoProps } from "utils/types";
 
 interface ModalProps {
   $state: string;

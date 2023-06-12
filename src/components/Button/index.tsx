@@ -15,6 +15,7 @@ const Button: FC<PropsWithChildren & ButtonProps & ExtraTWClassProps> = ({
 }) => {
   return (
     <button
+      id="button"
       type={type}
       disabled={disabled}
       onClick={action}

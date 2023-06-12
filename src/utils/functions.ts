@@ -1,4 +1,4 @@
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Notification } from "components";
 import { contractAddress, fee } from "./constants";
@@ -8,7 +8,7 @@ export const executeContract = async (client: SigningCosmWasmClient, senderAddre
   await client.execute(senderAddress, contractAddress, msg, fee);
 };
 
-export const queryContract = async (client: SigningCosmWasmClient, msg: unknown) => {
+export const queryContract = async (client: SigningCosmWasmClient | CosmWasmClient, msg: unknown) => {
   const response = await client.queryContractSmart(contractAddress, msg);
   return response;
 };

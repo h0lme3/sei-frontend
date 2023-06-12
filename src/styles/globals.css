@@ -7,10 +7,10 @@
 }
 
 @layer components {
-  button {
+  #button {
     @apply relative bg-full hover:before:opacity-100 z-0;
   }
-  button::before {
+  #button::before {
     @apply content-[""] block absolute w-full h-full top-0 left-0 z-[-100] opacity-0 rounded-[inherit] transition-opacity duration-500 ease-in-out bg-primary_gradient_hover shadow-button_hover;
   }
 }

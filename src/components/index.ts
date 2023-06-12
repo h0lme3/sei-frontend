@@ -4,6 +4,7 @@ export const Col = dynamic(() => import("./Box/Col"));
 export const Row = dynamic(() => import("./Box/Row"));
 
 export const Button = dynamic(() => import("./Button"));
+export const Loading = dynamic(() => import("./Loading"));
 
 export const WalletDropDown = dynamic(() => import("./DropDown/WalletDropDown"));
 export const WalletConnectButton = dynamic(() => import("./Button/WalletConnectButton"));
