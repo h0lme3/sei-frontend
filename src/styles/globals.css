@@ -13,6 +13,12 @@
   #button::before {
     @apply content-[""] block absolute w-full h-full top-0 left-0 z-[-100] opacity-0 rounded-[inherit] transition-opacity duration-500 ease-in-out bg-primary_gradient_hover shadow-button_hover;
   }
+  .animate-border {
+    @apply hover:after:scale-100;
+  }
+  .animate-border::after {
+    @apply content-[""] absolute w-full h-[2px] left-px -bottom-[6px] bg-white transition-all origin-left duration-300 ease-in scale-0;
+  }
 }
 
 /* custom wallet adapter dropdown list  */

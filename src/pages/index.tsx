@@ -1,18 +1,13 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 
+import { Page } from "components";
 import { ProView } from "views";
 
 const Home: NextPage = () => {
   return (
-    <>
-      <Head>
-        <title>TNT</title>
-        <meta name="description" content="This is template for Tailwind CSS + Next.js + TypeScript." />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Page name="counter">
       <ProView />
-    </>
+    </Page>
   );
 };
 

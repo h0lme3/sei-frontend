@@ -19,6 +19,9 @@ module.exports = {
         sans: ["Encode Sans", ...defaultTheme.fontFamily.sans], // default font style
         dm_sans: ["DM Sans"], // default font style
       },
+      colors: {
+        label: "#BEAFFA",
+      },
       backgroundImage: {
         primary_gradient: "linear-gradient(101.3deg, #FD8999 7.28%, #B89DF1 34.88%, #05BCEE 67.09%, #02BBA4 91.43%)",
         primary_gradient_hover:

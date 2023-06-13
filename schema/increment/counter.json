@@ -6,9 +6,7 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "InstantiateMsg",
     "type": "object",
-    "required": [
-      "count"
-    ],
+    "required": ["count"],
     "properties": {
       "count": {
         "type": "integer",
@@ -23,9 +21,7 @@
     "oneOf": [
       {
         "type": "object",
-        "required": [
-          "increment"
-        ],
+        "required": ["increment"],
         "properties": {
           "increment": {
             "type": "object",
@@ -36,15 +32,11 @@
       },
       {
         "type": "object",
-        "required": [
-          "reset"
-        ],
+        "required": ["reset"],
         "properties": {
           "reset": {
             "type": "object",
-            "required": [
-              "count"
-            ],
+            "required": ["count"],
             "properties": {
               "count": {
                 "type": "integer",
@@ -64,9 +56,7 @@
     "oneOf": [
       {
         "type": "object",
-        "required": [
-          "get_count"
-        ],
+        "required": ["get_count"],
         "properties": {
           "get_count": {
             "type": "object",
@@ -84,9 +74,7 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "GetCountResponse",
       "type": "object",
-      "required": [
-        "count"
-      ],
+      "required": ["count"],
       "properties": {
         "count": {
           "type": "integer",

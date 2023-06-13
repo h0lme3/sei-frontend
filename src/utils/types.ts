@@ -1,6 +1,7 @@
 import type { MouseEventHandler } from "react";
 
 import { WalletWindowKey } from "@sei-js/core";
+import { StaticImageData } from "next/image";
 
 export interface ExtraTWClassProps {
   className?: string;
@@ -13,9 +14,20 @@ export interface ButtonProps {
   type?: "button" | "reset" | "submit" | undefined;
 }
 
+export interface PageProps {
+  name: string;
+}
+
+export interface SeoProps {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
 export interface WalletInfoProps {
   name: WalletWindowKey;
-  src: any;
+  src: StaticImageData | string;
 }
 
 export interface NotificationProps {
