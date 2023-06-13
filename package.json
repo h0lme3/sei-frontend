@@ -42,7 +42,9 @@
     "typescript": "5.0.3"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": "npm run format",
-    "src/**/*.{js,jsx,ts,tsx}": "npm run eslint:fix"
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "npm run eslint:fix",
+      "npm run format"
+    ]
   }
 }
