@@ -4,9 +4,9 @@ import React from "react";
 import { Seo } from "components";
 
 import { SEO_LIST } from "utils";
-import type { PageProps } from "utils/types";
+import type { PageProps } from "types";
 
-const Page: FC<PropsWithChildren & PageProps> = ({ children, name }) => {
+const Page: FC<PropsWithChildren & PageProps> = ({ children, name = "default" }) => {
   const getSeoList = () => {
     if (SEO_LIST[name]) {
       return SEO_LIST[name];

@@ -2,7 +2,7 @@ import type { FC } from "react";
 import React from "react";
 import Head from "next/head";
 
-import type { SeoProps } from "utils/types";
+import type { SeoProps } from "types";
 
 const Seo: FC<SeoProps> = ({ title = "", description = "", image = "", canonical = "" }) => {
   return (

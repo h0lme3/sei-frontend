@@ -3,15 +3,15 @@ import React from "react";
 
 import { ClipLoader } from "react-spinners";
 
-import type { ButtonProps, ExtraTWClassProps } from "utils/types";
+import type { ButtonProps, ExtraTWClassProps } from "types";
 
 const Button: FC<PropsWithChildren & ButtonProps & ExtraTWClassProps> = ({
   children,
   action,
-  disabled,
-  isLoading,
+  disabled = false,
+  isLoading = false,
   type = "button",
-  className,
+  className = "",
 }) => {
   return (
     <button

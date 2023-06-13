@@ -8,14 +8,14 @@ import tw from "tailwind-styled-components";
 import { Col, Row } from "components";
 import { useWallet } from "contexts";
 import { wallets } from "utils";
-import type { WalletInfoProps } from "utils/types";
+import type { WalletInfoProps } from "types";
 
 interface ModalProps {
   $state: string;
 }
 
 interface WalletConnectModalProps {
-  connectWallet: (name: WalletInfoProps) => {};
+  connectWallet: (name: WalletInfoProps) => void;
 }
 
 const Modal = tw.div<ModalProps>`

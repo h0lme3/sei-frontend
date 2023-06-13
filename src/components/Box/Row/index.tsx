@@ -1,12 +1,12 @@
 import type { FC, PropsWithChildren } from "react";
 import React from "react";
 
-import type { ButtonProps, ExtraTWClassProps } from "utils/types";
+import type { ButtonProps, ExtraTWClassProps } from "types";
 
 const Row: FC<PropsWithChildren & ExtraTWClassProps & Pick<ButtonProps, "action">> = ({
   children,
-  className,
-  action = () => {},
+  className = "",
+  action,
 }) => {
   return (
     <div onClick={action} className={`flex items-center space-x-4 ${className}`}>

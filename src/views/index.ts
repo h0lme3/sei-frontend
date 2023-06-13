@@ -1,3 +1,3 @@
 import dynamic from "next/dynamic";
 
-export const ProView = dynamic(() => import("./ProView"));
+export const CounterView = dynamic(() => import("./CounterView"));

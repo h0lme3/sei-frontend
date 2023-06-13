@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "eslint:fix": "eslint --cache --fix \"src/**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "husky install"
   },
@@ -41,6 +42,7 @@
     "typescript": "5.0.3"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": "npm run format"
+    "src/**/*.{js,jsx,ts,tsx}": "npm run format",
+    "src/**/*.{js,jsx,ts,tsx}": "npm run eslint:fix"
   }
 }

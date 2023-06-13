@@ -3,9 +3,13 @@ import { createContext, useContext, useState } from "react";
 
 export const MainContext = createContext({
   isLoading: false,
-  setIsLoading: (value: boolean) => {},
+  setIsLoading: (value: boolean) => {
+    value;
+  },
   buttonType: "",
-  setButtonType: (value: string) => {},
+  setButtonType: (value: string) => {
+    value;
+  },
 });
 
 export const MainProvider: FC<PropsWithChildren> = ({ children }) => {

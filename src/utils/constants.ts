@@ -1,11 +1,18 @@
 import { coins } from "@cosmjs/amino";
 
-import { SeoProps, WalletInfoProps } from "./types";
+import { SeoProps, WalletInfoProps } from "types";
+
+// const type = Router.asPath.substring(1);
+// console.log(type, "type");
 
 export const chainId = "atlantic-2";
 export const restUrl = "https://rest.atlantic-2.seinetwork.io/";
 export const rpcUrl = "https://rpc.atlantic-2.seinetwork.io/";
-export const contractAddress = "sei17hw0c30az6vmqh3tu0x9p4gwn939ymfzrxgyz220kuk0pu07unkqvjft2q";
+export const counterContractAddress = "sei17hw0c30az6vmqh3tu0x9p4gwn939ymfzrxgyz220kuk0pu07unkqvjft2q";
+export const escrowContractAddress = "sei1592z9m5q2hm7gn5rdeyfj2393km3ehgttqn7gfwvdcgkpmp8e9wqzsg2sn";
+
+export const COUNTER = "counter";
+export const ESCROW = "escrow";
 
 export const fee = {
   amount: coins(10000, "usei"), // amount: 10,000
@@ -26,7 +33,13 @@ export const MENU_LIST = [
   { name: "escrow", path: "/escrow" },
 ];
 
-export const SEO_LIST: { [any: string]: SeoProps } = {
+export const SEO_LIST: { [unknown: string]: SeoProps } = {
+  default: {
+    title: "SEI | SOLA-X",
+    description: "Smart liquidity protocol powered by Solana.",
+    image: "/preview/default.png",
+    canonical: "default",
+  },
   counter: {
     title: "SEI-Counter | SOLA-X",
     description: "Smart liquidity protocol powered by Solana.",

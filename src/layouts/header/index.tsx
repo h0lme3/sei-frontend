@@ -8,7 +8,7 @@ import { MENU_LIST } from "utils";
 
 const Header = () => {
   const router = useRouter();
-  console.log(router.asPath);
+
   return (
     <Container>
       <Row className="pt-[14px] pb-[20px] justify-between">

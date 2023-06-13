@@ -5,7 +5,7 @@ import { WalletConnect, connect } from "@sei-js/core";
 
 import { WalletConnectModal } from "components";
 import { chainId, getWalletInfo, handleErrors } from "utils";
-import type { WalletInfoProps } from "utils/types";
+import type { WalletInfoProps } from "types";
 
 // create context
 export const WalletContext = createContext({
@@ -27,9 +27,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
   const [wallet, setWallet] = useState<WalletConnect | null>(null);
   const [walletInfo, setWalletInfo] = useState<WalletInfoProps | undefined>(undefined);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
-
-  const openWalletModal = () => setIsWalletModalOpen(true);
-  const closeWalletModal = () => setIsWalletModalOpen(false);
 
   useEffect(() => {
     autoConnect && autoConnectWallet();
@@ -54,9 +51,9 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
     }
   };
 
-  const disconnectWallet = () => {
-    setWallet(null);
-  };
+  const openWalletModal = () => setIsWalletModalOpen(true);
+  const closeWalletModal = () => setIsWalletModalOpen(false);
+  const disconnectWallet = () => setWallet(null);
 
   return (
     <WalletContext.Provider

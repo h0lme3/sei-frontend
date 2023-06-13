@@ -3,9 +3,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { Button } from "components";
-import type { SeoProps } from "utils/types";
+import type { SeoProps } from "types";
 
-const Template: FC<Pick<SeoProps, "title">> = ({ title }) => {
+const Template: FC<Pick<SeoProps, "title">> = ({ title = "" }) => {
   const router = useRouter();
 
   return (

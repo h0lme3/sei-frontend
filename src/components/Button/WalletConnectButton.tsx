@@ -3,9 +3,9 @@ import React from "react";
 
 import { Button, WalletDropDown } from "components";
 import { useWallet } from "contexts";
-import type { ExtraTWClassProps } from "utils/types";
+import type { ExtraTWClassProps } from "types";
 
-const WalletConnectButton: FC<PropsWithChildren & ExtraTWClassProps> = ({ children, className }) => {
+const WalletConnectButton: FC<PropsWithChildren & ExtraTWClassProps> = ({ children, className = "" }) => {
   const { wallet, openWalletModal } = useWallet();
 
   return wallet ? (

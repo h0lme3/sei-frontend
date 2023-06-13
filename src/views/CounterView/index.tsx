@@ -6,7 +6,7 @@ import { getCosmWasmClient, getSigningCosmWasmClient } from "@sei-js/core";
 
 import { Button, Col, Row } from "components";
 import { useMain, useWallet } from "contexts";
-import { executeContract, handleErrors, queryContract, rpcUrl } from "utils";
+import { COUNTER, executeContract, handleErrors, queryContract, rpcUrl } from "utils";
 
 const ProView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType } = useMain();
@@ -21,9 +21,9 @@ const ProView = () => {
 
   const fetchCount = async () => {
     try {
-      setIsLoading(true);
       let client;
       const msg = { get_count: {} };
+      setIsLoading(true);
       if (!wallet) {
         // without wallet, show number
         client = await getCosmWasmClient(rpcUrl);
@@ -32,7 +32,7 @@ const ProView = () => {
         client = await getSigningCosmWasmClient(rpcUrl, wallet.offlineSigner);
         setClient(client);
       }
-      const response = await queryContract(client, msg);
+      const response = await queryContract(client, msg, COUNTER);
       setCount(response.count);
     } catch (error) {
       handleErrors(error);
@@ -47,7 +47,7 @@ const ProView = () => {
       setButtonType("plus");
       setIsLoading(true);
       const msg = { increment: {} };
-      await executeContract(client, senderAddress, msg);
+      await executeContract(client, senderAddress, msg, COUNTER);
     } catch (error) {
       handleErrors(error);
     } finally {
@@ -62,7 +62,7 @@ const ProView = () => {
       setIsLoading(true);
       const msg = { reset: { count: 0 } };
       // unauthorized error
-      await executeContract(client, senderAddress, msg);
+      await executeContract(client, senderAddress, msg, COUNTER);
     } catch (error) {
       handleErrors(error);
     } finally {

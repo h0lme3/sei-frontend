@@ -2,10 +2,10 @@ import React from "react";
 
 import { toast } from "react-toastify";
 
-import type { NotificationProps } from "utils/types";
+import type { NotificationProps } from "types";
 
 // notification component
-const Notification = ({ type, title, message, link }: NotificationProps) => {
+const Notification = ({ type = "", title = "", message = "", link = "" }: NotificationProps) => {
   const messageWithOrWithoutLink = link ? (
     // with link
     <a href={link} target="_blank" rel="noopener noreferrer" className="inline text-[12px]">
