@@ -41,7 +41,7 @@ const WalletDropDown = () => {
     <div ref={ref}>
       <Button action={() => setDisplayDropdown(!displayDropdown)} className="normal-case">
         <Row>
-          {walletInfo && <Image src={walletInfo.src} alt={walletInfo.name} width={24} height={24} />}
+          {walletInfo && <Image src={walletInfo.src} alt={walletInfo.name} width={24} height={24} priority />}
           <p>{shortenWalletAddress(senderAddress)}</p>
         </Row>
       </Button>

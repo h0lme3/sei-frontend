@@ -53,7 +53,7 @@ const WalletConnectModal: FC<WalletConnectModalProps> = ({ connectWallet }) => {
                   action={() => connectWallet(wallet)}
                   className="px-6 py-2 text-[16px] cursor-pointer transition ease-in-out hover:bg-[#ffffff20]"
                 >
-                  <Image src={wallet.src} alt={wallet.name} width={32} height={32} />
+                  <Image src={wallet.src} alt={wallet.name} width={32} height={32} priority />
                   <p className="capitalize text-[18px]">{wallet.name}</p>
                 </Row>
               ))}

@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "eslint:fix": "eslint --cache --fix \"src/**/*.{js,jsx,ts,tsx}\"",
-    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
+    "eslint:fix": "eslint --cache --fix",
+    "format": "prettier --write",
     "prepare": "husky install"
   },
   "dependencies": {
