@@ -2,14 +2,11 @@ import { coins } from "@cosmjs/amino";
 
 import { SeoProps, WalletInfoProps } from "types";
 
-// const type = Router.asPath.substring(1);
-// console.log(type, "type");
-
-export const chainId = "atlantic-2";
-export const restUrl = "https://rest.atlantic-2.seinetwork.io/";
-export const rpcUrl = "https://rpc.atlantic-2.seinetwork.io/";
-export const counterContractAddress = "sei17hw0c30az6vmqh3tu0x9p4gwn939ymfzrxgyz220kuk0pu07unkqvjft2q";
-export const escrowContractAddress = "sei1592z9m5q2hm7gn5rdeyfj2393km3ehgttqn7gfwvdcgkpmp8e9wqzsg2sn";
+export const chainId = process.env.NEXT_PUBLIC_CHAIN_ID as string;
+export const restUrl = process.env.NEXT_PUBLIC_REST_URL as string;
+export const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL as string;
+export const counterContractAddress = process.env.NEXT_PUBLIC_COUNTER_ADDRESS as string;
+export const escrowsContractAddress = process.env.NEXT_PUBLIC_ESCROWS_ADDRESS as string;
 
 export const COUNTER = "counter";
 export const ESCROW = "escrow";

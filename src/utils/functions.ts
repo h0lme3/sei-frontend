@@ -1,7 +1,7 @@
 import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Notification } from "components";
-import { COUNTER, ESCROW, counterContractAddress, escrowContractAddress, fee } from "./constants";
+import { COUNTER, ESCROW, counterContractAddress, escrowsContractAddress, fee } from "./constants";
 import type { WalletInfoProps } from "types";
 
 export const returnContractType = (contractType: string) => {
@@ -9,7 +9,7 @@ export const returnContractType = (contractType: string) => {
     case COUNTER:
       return counterContractAddress;
     case ESCROW:
-      return escrowContractAddress;
+      return escrowsContractAddress;
     default:
       throw new Error(`Contract type ${contractType} is not supported.`);
   }
@@ -22,7 +22,6 @@ export const executeContract = async (
   contractType: string
 ) => {
   const contractAddress = returnContractType(contractType);
-  console.log(contractAddress, "sdfsdfsdf");
   await client.execute(senderAddress, contractAddress, msg, fee);
 };
 

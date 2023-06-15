@@ -1,6 +1,6 @@
 {
   "contract_name": "escrow",
-  "contract_version": "0.1.0",
+  "contract_version": "0.1.1",
   "idl_version": "1.0.0",
   "instantiate": {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -14,7 +14,9 @@
     "oneOf": [
       {
         "type": "object",
-        "required": ["create"],
+        "required": [
+          "create"
+        ],
         "properties": {
           "create": {
             "$ref": "#/definitions/CreateMsg"
@@ -24,11 +26,15 @@
       },
       {
         "type": "object",
-        "required": ["cancel"],
+        "required": [
+          "cancel"
+        ],
         "properties": {
           "cancel": {
             "type": "object",
-            "required": ["id"],
+            "required": [
+              "id"
+            ],
             "properties": {
               "id": {
                 "type": "integer",
@@ -43,7 +49,9 @@
       },
       {
         "type": "object",
-        "required": ["approve"],
+        "required": [
+          "approve"
+        ],
         "properties": {
           "approve": {
             "$ref": "#/definitions/ApproveMsg"
@@ -55,7 +63,9 @@
     "definitions": {
       "ApproveMsg": {
         "type": "object",
-        "required": ["id"],
+        "required": [
+          "id"
+        ],
         "properties": {
           "id": {
             "type": "integer",
@@ -81,15 +91,12 @@
       },
       "CreateMsg": {
         "type": "object",
-        "required": ["amount", "id"],
+        "required": [
+          "amount"
+        ],
         "properties": {
           "amount": {
             "$ref": "#/definitions/Uint128"
-          },
-          "id": {
-            "type": "integer",
-            "format": "uint32",
-            "minimum": 0.0
           },
           "token": {
             "anyOf": [
@@ -107,7 +114,11 @@
       "Cw20ReceiveMsg": {
         "description": "Cw20ReceiveMsg should be de/serialized under `Receive()` variant in a ExecuteMsg",
         "type": "object",
-        "required": ["amount", "msg", "sender"],
+        "required": [
+          "amount",
+          "msg",
+          "sender"
+        ],
         "properties": {
           "amount": {
             "$ref": "#/definitions/Uint128"
@@ -133,7 +144,9 @@
       {
         "description": "Show all open escrows. Return type is ListResponse.",
         "type": "object",
-        "required": ["list"],
+        "required": [
+          "list"
+        ],
         "properties": {
           "list": {
             "type": "object",
@@ -145,11 +158,15 @@
       {
         "description": "Returns the details of the named escrow, error if not created Return type: DetailsResponse.",
         "type": "object",
-        "required": ["details"],
+        "required": [
+          "details"
+        ],
         "properties": {
           "details": {
             "type": "object",
-            "required": ["id"],
+            "required": [
+              "id"
+            ],
             "properties": {
               "id": {
                 "type": "integer",
@@ -217,7 +234,10 @@
         },
         "Coin": {
           "type": "object",
-          "required": ["amount", "denom"],
+          "required": [
+            "amount",
+            "denom"
+          ],
           "properties": {
             "amount": {
               "$ref": "#/definitions/Uint128"
@@ -229,7 +249,10 @@
         },
         "Cw20CoinVerified": {
           "type": "object",
-          "required": ["address", "amount"],
+          "required": [
+            "address",
+            "amount"
+          ],
           "properties": {
             "address": {
               "$ref": "#/definitions/Addr"
@@ -241,7 +264,10 @@
         },
         "GenericBalance": {
           "type": "object",
-          "required": ["cw20", "native"],
+          "required": [
+            "cw20",
+            "native"
+          ],
           "properties": {
             "cw20": {
               "type": "array",
@@ -268,7 +294,9 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "ListResponse",
       "type": "object",
-      "required": ["escrows"],
+      "required": [
+        "escrows"
+      ],
       "properties": {
         "escrows": {
           "description": "list all registered ids",

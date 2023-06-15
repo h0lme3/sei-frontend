@@ -82,17 +82,11 @@
     "CreateMsg": {
       "type": "object",
       "required": [
-        "amount",
-        "id"
+        "amount"
       ],
       "properties": {
         "amount": {
           "$ref": "#/definitions/Uint128"
-        },
-        "id": {
-          "type": "integer",
-          "format": "uint32",
-          "minimum": 0.0
         },
         "token": {
           "anyOf": [

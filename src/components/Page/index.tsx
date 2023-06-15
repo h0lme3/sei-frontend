@@ -15,10 +15,10 @@ const Page: FC<PropsWithChildren & PageProps> = ({ children, name = "default" })
 
   const props = getSeoList();
   return (
-    <section>
+    <>
       <Seo {...props} />
       {children}
-    </section>
+    </>
   );
 };
 
