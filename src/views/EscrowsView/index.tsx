@@ -17,7 +17,7 @@ const EscrowsView = () => {
 
   useEffect(() => {
     fetchEscrowList();
-    // fetchEscrowDetails();
+    fetchEscrowDetails();
   }, [wallet]);
 
   const fetchEscrowList = async () => {
