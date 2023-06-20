@@ -9,7 +9,7 @@ export const counterContractAddress = process.env.NEXT_PUBLIC_COUNTER_ADDRESS as
 export const escrowsContractAddress = process.env.NEXT_PUBLIC_ESCROWS_ADDRESS as string;
 
 export const COUNTER = "counter";
-export const ESCROW = "escrow";
+export const ESCROWS = "escrows";
 
 export const fee = {
   amount: coins(10000, "usei"), // amount: 10,000
@@ -26,8 +26,8 @@ export const wallets: WalletInfoProps[] = [
 ];
 
 export const MENU_LIST = [
-  { name: "counter", path: "/" },
-  { name: "escrow", path: "/escrow" },
+  { name: "counter", path: "/counter" },
+  { name: "escrows", path: "/escrows" },
 ];
 
 export const SEO_LIST: { [unknown: string]: SeoProps } = {
@@ -43,11 +43,11 @@ export const SEO_LIST: { [unknown: string]: SeoProps } = {
     image: "/preview/default.png",
     canonical: "counter",
   },
-  escrow: {
+  escrows: {
     title: "SEI-ESCROW | SOLA-X",
     description: "Smart liquidity protocol powered by Solana.",
     image: "/preview/default.png",
-    canonical: "escrow",
+    canonical: "escrows",
   },
   404: {
     title: "404 | Page Not Found",

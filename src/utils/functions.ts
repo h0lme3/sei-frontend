@@ -1,14 +1,15 @@
+import { Coin } from "@cosmjs/amino";
 import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Notification } from "components";
-import { COUNTER, ESCROW, counterContractAddress, escrowsContractAddress, fee } from "./constants";
+import { COUNTER, ESCROWS, counterContractAddress, escrowsContractAddress, fee } from "./constants";
 import type { WalletInfoProps } from "types";
 
 export const returnContractType = (contractType: string) => {
   switch (contractType) {
     case COUNTER:
       return counterContractAddress;
-    case ESCROW:
+    case ESCROWS:
       return escrowsContractAddress;
     default:
       throw new Error(`Contract type ${contractType} is not supported.`);
@@ -19,10 +20,11 @@ export const executeContract = async (
   client: SigningCosmWasmClient,
   senderAddress: string,
   msg: unknown,
-  contractType: string
+  contractType: string,
+  funds?: Coin[]
 ) => {
   const contractAddress = returnContractType(contractType);
-  await client.execute(senderAddress, contractAddress, msg, fee);
+  await client.execute(senderAddress, contractAddress, msg, fee, "", funds);
 };
 
 export const queryContract = async (

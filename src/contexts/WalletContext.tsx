@@ -1,10 +1,11 @@
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { WalletConnect, connect } from "@sei-js/core";
+import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import { WalletConnect, connect, getCosmWasmClient, getSigningCosmWasmClient } from "@sei-js/core";
 
 import { WalletConnectModal } from "components";
-import { chainId, getWalletInfo, handleErrors } from "utils";
+import { chainId, getWalletInfo, handleErrors, rpcUrl } from "utils";
 import type { WalletInfoProps } from "types";
 
 // create context
@@ -13,6 +14,10 @@ export const WalletContext = createContext({
   isWalletModalOpen: false,
   walletInfo: undefined as WalletInfoProps | undefined,
   wallet: null as WalletConnect | null,
+  client: null as SigningCosmWasmClient | null,
+  getClient: async (): Promise<CosmWasmClient> => {
+    return await getCosmWasmClient(rpcUrl);
+  },
   openWalletModal: () => {},
   closeWalletModal: () => {},
   disconnectWallet: () => {},
@@ -24,6 +29,7 @@ export interface WalletProviderProps extends PropsWithChildren {
 
 export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect = false }) => {
   const [senderAddress, setSenderAddress] = useState<string>("");
+  const [client, setClient] = useState<SigningCosmWasmClient | null>(null);
   const [wallet, setWallet] = useState<WalletConnect | null>(null);
   const [walletInfo, setWalletInfo] = useState<WalletInfoProps | undefined>(undefined);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
@@ -31,6 +37,15 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
   useEffect(() => {
     autoConnect && autoConnectWallet();
   }, [autoConnect]);
+
+  const getClient = async () => {
+    if (!wallet) {
+      return await getCosmWasmClient(rpcUrl);
+    }
+    const client = await getSigningCosmWasmClient(rpcUrl, wallet.offlineSigner);
+    setClient(client);
+    return client;
+  };
 
   const autoConnectWallet = async () => {
     const walletInfo = getWalletInfo();
@@ -62,6 +77,8 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
         wallet,
         walletInfo,
         isWalletModalOpen,
+        client,
+        getClient,
         openWalletModal,
         closeWalletModal,
         disconnectWallet,

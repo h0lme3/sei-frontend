@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 
 import { FaPlus } from "react-icons/fa";
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import { getCosmWasmClient, getSigningCosmWasmClient } from "@sei-js/core";
 
-import { Button, Col, Row } from "components";
+import { Button, Col, Container, Row } from "components";
 import { useMain, useWallet } from "contexts";
-import { COUNTER, executeContract, handleErrors, queryContract, rpcUrl } from "utils";
+import { COUNTER, executeContract, handleErrors, queryContract } from "utils";
 
 const ProView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType } = useMain();
-  const { senderAddress, wallet } = useWallet();
+  const { senderAddress, wallet, client, getClient } = useWallet();
 
   const [count, setCount] = useState<number>(0);
-  const [client, setClient] = useState<SigningCosmWasmClient>();
 
   useEffect(() => {
     fetchCount();
@@ -21,17 +18,9 @@ const ProView = () => {
 
   const fetchCount = async () => {
     try {
-      let client;
-      const msg = { get_count: {} };
       setIsLoading(true);
-      if (!wallet) {
-        // without wallet, show number
-        client = await getCosmWasmClient(rpcUrl);
-      } else {
-        // with wallet, show number
-        client = await getSigningCosmWasmClient(rpcUrl, wallet.offlineSigner);
-        setClient(client);
-      }
+      const client = await getClient();
+      const msg = { get_count: {} };
       const response = await queryContract(client, msg, COUNTER);
       setCount(response.count);
     } catch (error) {
@@ -71,30 +60,32 @@ const ProView = () => {
   };
 
   return (
-    <Col className="h-screen justify-center items-center">
-      <Col className="items-center space-y-0">
-        <p>Current count number</p>
-        <p className="text-[120px]">{count}</p>
+    <Container className="py-10">
+      <Col className="justify-center items-center">
+        <Col className="items-center space-y-0">
+          <p>Current count number</p>
+          <p className="text-[120px]">{count}</p>
+        </Col>
+        {wallet && (
+          <Row>
+            <Button
+              action={incrementCounter}
+              isLoading={isLoading && buttonType === "plus"}
+              className="bg-slate-800 text-white px-4 py-2 rounded-full"
+            >
+              <FaPlus size={25} />
+            </Button>
+            <Button
+              action={resetCounter}
+              isLoading={isLoading && buttonType === "reset"}
+              className="bg-slate-800 text-white rounded-full"
+            >
+              Reset
+            </Button>
+          </Row>
+        )}
       </Col>
-      {wallet && (
-        <Row>
-          <Button
-            action={incrementCounter}
-            isLoading={isLoading && buttonType === "plus"}
-            className="bg-slate-800 text-white px-4 py-2 rounded-full"
-          >
-            <FaPlus size={25} />
-          </Button>
-          <Button
-            action={resetCounter}
-            isLoading={isLoading && buttonType === "reset"}
-            className="bg-slate-800 text-white px-4 py-2 rounded-full"
-          >
-            Reset
-          </Button>
-        </Row>
-      )}
-    </Col>
+    </Container>
   );
 };
 

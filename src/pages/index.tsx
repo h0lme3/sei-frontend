@@ -1,14 +1,19 @@
+import React, { useEffect } from "react";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 
 import { Page } from "components";
-import { CounterView } from "views";
 
 const Home: NextPage = () => {
-  return (
-    <Page name="counter">
-      <CounterView />
-    </Page>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.asPath === "/") {
+      router.push("/counter");
+    }
+  }, [router]);
+
+  return <Page name="default"></Page>;
 };
 
 export default Home;

@@ -5,7 +5,7 @@ import { EscrowsView } from "views";
 
 const Escrow = () => {
   return (
-    <Page name="escrow">
+    <Page name="escrows">
       <EscrowsView />
     </Page>
   );
