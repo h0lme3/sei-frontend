@@ -5,7 +5,7 @@ import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate
 import { WalletConnect, connect, getCosmWasmClient, getSigningCosmWasmClient } from "@sei-js/core";
 
 import { WalletConnectModal } from "components";
-import { chainId, getWalletId, handleErrors, rpcUrl, wallets } from "utils";
+import { chainId, handleErrors, rpcUrl, wallets } from "utils";
 
 // create context
 export const WalletContext = createContext({
@@ -50,12 +50,16 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
   );
 
   const autoConnectWallet = async () => {
-    const walletId = getWalletId();
-    walletId && connectWallet(walletId);
+    const storage = localStorage.getItem("walletId");
+    if (storage === "undefined" || storage === null) return;
+    const walletId = JSON.parse(storage);
+    console.log(walletId, "walletId-autoconnectwallet");
+    connectWallet(walletId);
   };
 
   const connectWallet = async (walletId: number) => {
     try {
+      console.log(walletId, "walletId-connectwallet");
       const wallet = await connect(wallets[walletId - 1].name, chainId);
       localStorage.setItem("walletId", JSON.stringify(walletId));
       setWallet(wallet);

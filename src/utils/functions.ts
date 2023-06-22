@@ -40,13 +40,6 @@ export const shortenWalletAddress = (walletAddress: string, len = 5) => {
   return walletAddress.slice(0, len) + "..." + walletAddress.slice(-len);
 };
 
-export const getWalletId = () => {
-  const storage = localStorage.getItem("walletId");
-  if (storage === "undefined" || storage === null) return;
-  const walletId = JSON.parse(storage);
-  return walletId;
-};
-
 export const handleErrors = (error: any) => {
   console.log(error, "error");
   const message = error.message;
