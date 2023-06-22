@@ -1,3 +1,4 @@
+import bigInt from "big-integer";
 import { coins } from "@cosmjs/amino";
 
 import { SeoProps, WalletInfoProps } from "types";
@@ -8,12 +9,14 @@ export const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL as string;
 export const counterContractAddress = process.env.NEXT_PUBLIC_COUNTER_ADDRESS as string;
 export const escrowsContractAddress = process.env.NEXT_PUBLIC_ESCROWS_ADDRESS as string;
 
+export const useiDecimal = 6;
 export const COUNTER = "counter";
 export const ESCROWS = "escrows";
 
+export const ESCROW_AMOUNT = bigInt("100000000000000");
 export const fee = {
-  amount: coins(10000, "usei"), // amount: 10,000
-  gas: "200000", // gas: 200,000
+  amount: coins(10000, "usei"), // amount: 10,000 - 0.1 sei
+  gas: "200000", // gas: 200,000 - 0.004 sei
 };
 
 export const wallets: WalletInfoProps[] = [

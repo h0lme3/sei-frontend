@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, memo } from "react";
 
-import bigInt from "big-integer";
-import { BsClipboard, BsClipboardCheck } from "react-icons/bs";
+import { AiOutlineCheck } from "react-icons/ai";
+import { BsClipboard } from "react-icons/bs";
 import { coins } from "@cosmjs/amino";
+import { toBinary } from "@cosmjs/cosmwasm-stargate";
 
 import { Button, Col, Container, Row } from "components";
 import { useMain, useWallet } from "contexts";
-import { ESCROWS, executeContract, handleErrors, handleSuccess, queryContract, shortenWalletAddress } from "utils";
+import {
+  ESCROWS,
+  ESCROW_AMOUNT,
+  executeContract,
+  handleErrors,
+  handleSuccess,
+  queryContract,
+  shortenWalletAddress,
+  useiDecimal,
+} from "utils";
 
 interface EscrowsDetailsProps {
   id: number;
@@ -34,12 +44,15 @@ const EscrowsView = () => {
     fetchEscrowsList();
   }, [wallet]);
 
-  const getEscrowDetailsByID = async (id: number): Promise<EscrowsDetailsProps> => {
-    const client = await getClient();
-    const msg = { details: { id } };
-    const response = await queryContract(client, msg, ESCROWS);
-    return response;
-  };
+  const getEscrowDetailsByID = useCallback(
+    async (id: number): Promise<EscrowsDetailsProps> => {
+      const client = await getClient();
+      const msg = { details: { id } };
+      const response = await queryContract(client, msg, ESCROWS);
+      return response;
+    },
+    [getClient]
+  );
 
   const fetchEscrowsList = async () => {
     try {
@@ -63,7 +76,6 @@ const EscrowsView = () => {
       setButtonType("create");
       setIsLoading(true);
       const funds = coins(100000, "usei"); // 0.1 sei
-      const ESCROW_AMOUNT = bigInt("100000000000000");
       const msg = {
         create: {
           amount: ESCROW_AMOUNT,
@@ -81,10 +93,22 @@ const EscrowsView = () => {
 
   const approveOrCancelEscrow = async (id: number, type: string) => {
     if (!client || !senderAddress) return;
+    const amount = escrows[id - 1].token_amount;
     try {
       setButtonType(type);
       setIsLoading(true);
-      const msg = type === "approve" ? { approve: { id } } : { cancel: { id } };
+      const approveMsg = {
+        approve: {
+          id,
+          token: {
+            sender: senderAddress,
+            amount,
+            msg: toBinary({}),
+          },
+        },
+      };
+      const cancelMsg = { cancel: { id } };
+      const msg = type === "approve" ? approveMsg : cancelMsg;
       const response = await executeContract(client, senderAddress, msg, ESCROWS);
       handleSuccess(response);
     } catch (error) {
@@ -130,11 +154,11 @@ const EscrowsView = () => {
                         <p> {shortenWalletAddress(escrow.owner, 6)}</p>
                         <sup>
                           {copied && clipboardIndex === `clipboard${escrow.id}` ? (
-                            <BsClipboardCheck color="white" size={20} className="cursor-pointer" />
+                            <AiOutlineCheck color="green" size={15} className="cursor-pointer" />
                           ) : (
                             <BsClipboard
                               color="white"
-                              size={20}
+                              size={15}
                               onClick={() => copyAddress(escrow.owner, escrow.id)}
                               className="cursor-pointer"
                             />
@@ -143,18 +167,18 @@ const EscrowsView = () => {
                       </Row>
                     </Row>
                     <Row className="justify-between">
-                      <b>Coin Amount: </b> <p>{Number(escrow.coin_amount).toLocaleString()}</p>
+                      <b>Coin Amount: </b> <p>{(Number(escrow.coin_amount) / 10 ** useiDecimal).toLocaleString()}</p>
                     </Row>
                     <Row className="justify-between mobile:flex-col">
                       <b className="self-start">Token Amount: </b>{" "}
-                      <p className="self-end">{Number(escrow.token_amount).toLocaleString()}</p>
+                      <p className="self-end">{(Number(escrow.token_amount) / 10 ** useiDecimal).toLocaleString()}</p>
                     </Row>
                   </Col>
                 </Row>
                 <Row className="justify-center">
                   <Button
                     action={() => approveOrCancelEscrow(escrow.id, "approve")}
-                    disabled={escrow.is_cancelled}
+                    disabled={escrow.is_cancelled || escrow.is_complete}
                     isLoading={isLoading && buttonType === "approve"}
                     className="flex-1 bg-slate-800 text-white px-4 py-2 rounded-full"
                   >
@@ -162,7 +186,7 @@ const EscrowsView = () => {
                   </Button>
                   <Button
                     action={() => approveOrCancelEscrow(escrow.id, "cancel")}
-                    disabled={escrow.is_cancelled}
+                    disabled={escrow.is_cancelled || escrow.is_complete}
                     isLoading={isLoading && buttonType === "cancel"}
                     className="flex-1 bg-slate-800 text-white px-4 py-2 rounded-full"
                   >
@@ -177,4 +201,4 @@ const EscrowsView = () => {
   );
 };
 
-export default EscrowsView;
+export default memo(EscrowsView);

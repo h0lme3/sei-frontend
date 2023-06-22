@@ -5,10 +5,10 @@ import { useDetectClickOutside } from "react-detect-click-outside";
 
 import { Button, Row } from "components";
 import { useWallet } from "contexts";
-import { shortenWalletAddress } from "utils";
+import { shortenWalletAddress, wallets } from "utils";
 
 const WalletDropDown = () => {
-  const { senderAddress, walletInfo, openWalletModal, disconnectWallet } = useWallet();
+  const { senderAddress, walletId, openWalletModal, disconnectWallet } = useWallet();
 
   const [copied, setCopied] = useState(false);
   const [displayDropdown, setDisplayDropdown] = useState(false);
@@ -41,7 +41,9 @@ const WalletDropDown = () => {
     <div ref={ref}>
       <Button action={() => setDisplayDropdown(!displayDropdown)} className="normal-case">
         <Row>
-          {walletInfo && <Image src={walletInfo.src} alt={walletInfo.name} width={24} height={24} priority />}
+          {!!walletId && (
+            <Image src={wallets[walletId - 1].src} alt={wallets[walletId - 1].name} width={24} height={24} priority />
+          )}
           <p>{shortenWalletAddress(senderAddress)}</p>
         </Row>
       </Button>

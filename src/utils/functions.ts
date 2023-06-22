@@ -3,7 +3,6 @@ import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate
 
 import { Notification } from "components";
 import { COUNTER, ESCROWS, counterContractAddress, escrowsContractAddress, fee } from "./constants";
-import type { WalletInfoProps } from "types";
 
 export const returnContractType = (contractType: string) => {
   switch (contractType) {
@@ -41,11 +40,11 @@ export const shortenWalletAddress = (walletAddress: string, len = 5) => {
   return walletAddress.slice(0, len) + "..." + walletAddress.slice(-len);
 };
 
-export const getWalletInfo = () => {
-  const storage = localStorage.getItem("walletInfo");
+export const getWalletId = () => {
+  const storage = localStorage.getItem("walletId");
   if (storage === "undefined" || storage === null) return;
-  const walletInfo: WalletInfoProps = JSON.parse(storage);
-  return walletInfo;
+  const walletId = JSON.parse(storage);
+  return walletId;
 };
 
 export const handleErrors = (error: any) => {

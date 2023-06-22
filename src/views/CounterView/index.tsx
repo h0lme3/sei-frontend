@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 
 import { FaPlus } from "react-icons/fa";
 
@@ -6,7 +6,7 @@ import { Button, Col, Container, Row } from "components";
 import { useMain, useWallet } from "contexts";
 import { COUNTER, executeContract, handleErrors, queryContract } from "utils";
 
-const ProView = () => {
+const CounterView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType } = useMain();
   const { senderAddress, wallet, client, getClient } = useWallet();
 
@@ -21,8 +21,8 @@ const ProView = () => {
       setIsLoading(true);
       const client = await getClient();
       const msg = { get_count: {} };
-      const response = await queryContract(client, msg, COUNTER);
-      setCount(response.count);
+      const { count } = await queryContract(client, msg, COUNTER);
+      setCount(count);
     } catch (error) {
       handleErrors(error);
     } finally {
@@ -30,27 +30,14 @@ const ProView = () => {
     }
   };
 
-  const incrementCounter = async () => {
+  const incrementOrResetCounter = async (type: string) => {
     if (!client || !senderAddress) return;
     try {
-      setButtonType("plus");
+      setButtonType(type);
       setIsLoading(true);
-      const msg = { increment: {} };
-      await executeContract(client, senderAddress, msg, COUNTER);
-    } catch (error) {
-      handleErrors(error);
-    } finally {
-      await fetchCount();
-    }
-  };
-
-  const resetCounter = async () => {
-    if (!client || !senderAddress) return;
-    try {
-      setButtonType("reset");
-      setIsLoading(true);
-      const msg = { reset: { count: 0 } };
-      // unauthorized error
+      const incrementMsg = { increment: {} };
+      const resetMsg = { reset: { count: 0 } };
+      const msg = type === "plus" ? incrementMsg : resetMsg;
       await executeContract(client, senderAddress, msg, COUNTER);
     } catch (error) {
       handleErrors(error);
@@ -68,18 +55,10 @@ const ProView = () => {
         </Col>
         {wallet && (
           <Row>
-            <Button
-              action={incrementCounter}
-              isLoading={isLoading && buttonType === "plus"}
-              className="bg-slate-800 text-white px-4 py-2 rounded-full"
-            >
+            <Button action={() => incrementOrResetCounter("plus")} isLoading={isLoading && buttonType === "plus"}>
               <FaPlus size={25} />
             </Button>
-            <Button
-              action={resetCounter}
-              isLoading={isLoading && buttonType === "reset"}
-              className="bg-slate-800 text-white rounded-full"
-            >
+            <Button action={() => incrementOrResetCounter("reset")} isLoading={isLoading && buttonType === "reset"}>
               Reset
             </Button>
           </Row>
@@ -89,4 +68,4 @@ const ProView = () => {
   );
 };
 
-export default ProView;
+export default memo(CounterView);
