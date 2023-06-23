@@ -15,7 +15,8 @@ import {
   handleSuccess,
   queryContract,
   shortenWalletAddress,
-  useiDecimal,
+  Native_Token_Decimals,
+  TOKEN,
 } from "utils";
 
 interface EscrowsDetailsProps {
@@ -32,6 +33,13 @@ interface EscrowsDetailsProps {
   };
 }
 
+interface TokenDetailProps {
+  name: string;
+  symbol: string;
+  decimals: number;
+  total_supply: number;
+}
+
 const EscrowsView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType } = useMain();
   const { wallet, senderAddress, client, getClient } = useWallet();
@@ -39,6 +47,11 @@ const EscrowsView = () => {
   const [copied, setCopied] = useState(false);
   const [clipboardIndex, setClipboardIndex] = useState<string>("");
   const [escrows, setEscrows] = useState<EscrowsDetailsProps[]>([]);
+  const [tokenDetail, setTokenDetail] = useState<TokenDetailProps>();
+
+  useEffect(() => {
+    fetchTokenMetadata();
+  }, []);
 
   useEffect(() => {
     fetchEscrowsList();
@@ -63,6 +76,19 @@ const EscrowsView = () => {
       const escrowIds: number[] = escrows.map((escrow: Pick<EscrowsDetailsProps, "id">) => escrow.id);
       const escrowDetails = await Promise.all(escrowIds.map((escrow, index) => getEscrowDetailsByID(index + 1)));
       setEscrows(escrowDetails);
+    } catch (error) {
+      handleErrors(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchTokenMetadata = async () => {
+    try {
+      setIsLoading(true);
+      const client = await getClient();
+      const msg = { token_info: {} };
+      await queryContract(client, msg, TOKEN).then(setTokenDetail);
     } catch (error) {
       handleErrors(error);
     } finally {
@@ -167,12 +193,21 @@ const EscrowsView = () => {
                       </Row>
                     </Row>
                     <Row className="justify-between">
-                      <b>Coin Amount: </b> <p>{(Number(escrow.coin_amount) / 10 ** useiDecimal).toLocaleString()}</p>
+                      <b>Coin Amount (USEI): </b>{" "}
+                      <p>{(Number(escrow.coin_amount) / 10 ** Native_Token_Decimals).toLocaleString()}</p>
                     </Row>
-                    <Row className="justify-between mobile:flex-col">
-                      <b className="self-start">Token Amount: </b>{" "}
-                      <p className="self-end">{(Number(escrow.token_amount) / 10 ** useiDecimal).toLocaleString()}</p>
-                    </Row>
+                    {tokenDetail && (
+                      <Row className="justify-between mobile:flex-col">
+                        <b className="self-start">
+                          Token Amount <span> ({tokenDetail.symbol})</span>:{" "}
+                        </b>{" "}
+                        <p className="self-end">
+                          {(Number(escrow.token_amount) / 10 ** tokenDetail.decimals).toLocaleString("en", {
+                            minimumFractionDigits: 5,
+                          })}
+                        </p>
+                      </Row>
+                    )}
                   </Col>
                 </Row>
                 <Row className="justify-center">

@@ -5,6 +5,7 @@ export const Row = dynamic(() => import("./Box/Row"));
 export const Border = dynamic(() => import("./Border"));
 export const Button = dynamic(() => import("./Button"));
 export const Container = dynamic(() => import("./Container"));
+export const DropDown = dynamic(() => import("./DropDown"));
 export const Loading = dynamic(() => import("./Loading"));
 export const Page = dynamic(() => import("./Page"));
 export const Seo = dynamic(() => import("./Seo"));

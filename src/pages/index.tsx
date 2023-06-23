@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import type { NextPage } from "next";
-import { useRouter } from "next/router";
+import React from "react";
+import type { GetServerSideProps, NextPage } from "next";
 
 import { Page } from "components";
 
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    redirect: {
+      destination: "/counter",
+      permanent: false,
+    },
+  };
+};
+
 const Home: NextPage = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (router.asPath === "/") {
-      router.push("/counter");
-    }
-  }, [router]);
-
   return <Page name="default"></Page>;
 };
 

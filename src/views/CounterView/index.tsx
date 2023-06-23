@@ -4,7 +4,7 @@ import { FaPlus } from "react-icons/fa";
 
 import { Button, Col, Container, Row } from "components";
 import { useMain, useWallet } from "contexts";
-import { COUNTER, executeContract, handleErrors, queryContract } from "utils";
+import { COUNTER, executeContract, handleErrors, handleSuccess, queryContract } from "utils";
 
 const CounterView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType } = useMain();
@@ -38,7 +38,8 @@ const CounterView = () => {
       const incrementMsg = { increment: {} };
       const resetMsg = { reset: { count: 0 } };
       const msg = type === "plus" ? incrementMsg : resetMsg;
-      await executeContract(client, senderAddress, msg, COUNTER);
+      const response = await executeContract(client, senderAddress, msg, COUNTER);
+      handleSuccess(response);
     } catch (error) {
       handleErrors(error);
     } finally {

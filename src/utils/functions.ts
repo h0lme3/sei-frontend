@@ -2,14 +2,16 @@ import { Coin } from "@cosmjs/amino";
 import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Notification } from "components";
-import { COUNTER, ESCROWS, counterContractAddress, escrowsContractAddress, fee } from "./constants";
+import { COUNTER, ESCROWS, TOKEN, counterAddress, escrowsAddress, fee, tokenAddress } from "./constants";
 
 export const returnContractType = (contractType: string) => {
   switch (contractType) {
     case COUNTER:
-      return counterContractAddress;
+      return counterAddress;
     case ESCROWS:
-      return escrowsContractAddress;
+      return escrowsAddress;
+    case TOKEN:
+      return tokenAddress;
     default:
       throw new Error(`Contract type ${contractType} is not supported.`);
   }
@@ -23,7 +25,8 @@ export const executeContract = async (
   funds?: Coin[]
 ) => {
   const contractAddress = returnContractType(contractType);
-  await client.execute(senderAddress, contractAddress, msg, fee, "", funds);
+  const response = await client.execute(senderAddress, contractAddress, msg, fee, "", funds);
+  return response;
 };
 
 export const queryContract = async (
@@ -32,12 +35,20 @@ export const queryContract = async (
   contractType: string
 ) => {
   const contractAddress = returnContractType(contractType);
+  console.log(contractAddress, "contractAddress");
   const response = await client.queryContractSmart(contractAddress, msg);
   return response;
 };
 
-export const shortenWalletAddress = (walletAddress: string, len = 5) => {
+export const shortenWalletAddress = (walletAddress: string, len = 4) => {
   return walletAddress.slice(0, len) + "..." + walletAddress.slice(-len);
+};
+
+export const getWalletId = () => {
+  const storage = localStorage.getItem("walletId");
+  if (storage === "undefined" || storage === null) return;
+  const walletId = JSON.parse(storage);
+  return walletId;
 };
 
 export const handleErrors = (error: any) => {
@@ -48,6 +59,7 @@ export const handleErrors = (error: any) => {
 
 export const handleSuccess = (response: any) => {
   console.log(response, "response");
-  const link = "https://sei.explorers.guru/";
+  // const link = `https://sei.explorers.guru/transaction/${response.transactionHash}`;
+  const link = `https://testnet-explorer.brocha.in/sei%20atlantic%202/tx/${response.transactionHash}`;
   Notification({ type: "success", title: "Transaction ", message: "Transaction is confirmed successfully", link });
 };

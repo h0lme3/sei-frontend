@@ -6,9 +6,10 @@ import { useDetectClickOutside } from "react-detect-click-outside";
 import { Button, Row } from "components";
 import { useWallet } from "contexts";
 import { shortenWalletAddress, wallets } from "utils";
+import type { ExtraTWClassProps } from "types";
 
-const WalletDropDown = () => {
-  const { senderAddress, walletId, openWalletModal, disconnectWallet } = useWallet();
+const WalletDropDown = ({ className = "" }: ExtraTWClassProps) => {
+  const { senderAddress, wallet, walletId, openWalletModal, disconnectWallet } = useWallet();
 
   const [copied, setCopied] = useState(false);
   const [displayDropdown, setDisplayDropdown] = useState(false);
@@ -34,18 +35,28 @@ const WalletDropDown = () => {
         closeDropdown();
       },
     },
-    { name: "Disconnect", action: disconnectWallet },
+    {
+      name: "Disconnect",
+      action: () => {
+        disconnectWallet();
+        closeDropdown();
+      },
+    },
   ];
 
   return (
     <div ref={ref}>
-      <Button action={() => setDisplayDropdown(!displayDropdown)} className="normal-case">
-        <Row>
-          {!!walletId && (
-            <Image src={wallets[walletId - 1].src} alt={wallets[walletId - 1].name} width={24} height={24} priority />
-          )}
-          <p>{shortenWalletAddress(senderAddress)}</p>
-        </Row>
+      <Button action={() => (wallet ? setDisplayDropdown(!displayDropdown) : openWalletModal())} className={className}>
+        {wallet ? (
+          <Row>
+            {!!walletId && (
+              <Image src={wallets[walletId - 1].src} alt={wallets[walletId - 1].name} width={24} height={24} priority />
+            )}
+            <p>{shortenWalletAddress(senderAddress)}</p>
+          </Row>
+        ) : (
+          "Select Wallet"
+        )}
       </Button>
       {displayDropdown && (
         <div className={`wallet-adapter-dropdown-list ${displayDropdown && "wallet-adapter-dropdown-list-active"}`}>
