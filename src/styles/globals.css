@@ -6,6 +6,15 @@
   @apply box-border;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  @apply m-0 appearance-none;
+}
+
+input[type="number"] {
+  @apply [appearance:textfield];
+}
+
 @layer components {
   #button {
     @apply relative bg-full hover:before:opacity-100 z-0;

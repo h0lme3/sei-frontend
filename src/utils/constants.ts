@@ -1,4 +1,4 @@
-import bigInt from "big-integer";
+// import bigInt from "big-integer";
 import { coins } from "@cosmjs/amino";
 
 import { SeoProps, WalletInfoProps } from "types";
@@ -10,17 +10,22 @@ export const counterAddress = process.env.NEXT_PUBLIC_COUNTER_ADDRESS as string;
 export const escrowsAddress = process.env.NEXT_PUBLIC_ESCROWS_ADDRESS as string;
 export const tokenAddress = process.env.NEXT_PUBLIC_TOKEN_ADDRESS as string;
 
+export const FLOAT_NUM_REGEX = "/^[+-]?d+(.d+)?$/";
+
 export const Native_Token_Decimals = 6;
 
 export const COUNTER = "counter";
 export const ESCROWS = "escrows";
 export const TOKEN = "token";
 
-export const ESCROW_AMOUNT = bigInt("100000000000000"); // 1e14
+export const ESCROW_RADIO = ["sei-token", "token-sei"];
+
+// export const ESCROW_AMOUNT = bigInt("100000000000000"); // 1e14
+// export const ESCROW_AMOUNT = bigInt("1000000000000000000"); // 1e18
 
 export const fee = {
   amount: coins(10000, "usei"), // amount: 10,000 - 0.1 sei
-  gas: "200000", // gas: 200,000 - 0.004 sei
+  gas: "300000", // gas: 300,000 - 0.006 sei
 };
 
 export const wallets: WalletInfoProps[] = [

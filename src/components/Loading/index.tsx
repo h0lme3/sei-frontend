@@ -13,8 +13,8 @@ const Loading = () => {
   }, [isLoading]);
 
   return isLoading ? (
-    <Row className="fixed z-max left-0 top-0 w-full min-h-full justify-center bg-behind">
-      <MoonLoader color="white" className="bg-black rounded-full" />
+    <Row className="fixed z-max left-0 top-0 w-full min-h-full justify-center backdrop-blur-md backdrop-brightness-50">
+      <MoonLoader color="white" className="rounded-full" />
     </Row>
   ) : (
     <></>

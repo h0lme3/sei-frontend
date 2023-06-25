@@ -26,7 +26,6 @@ module.exports = {
       },
       backgroundColor: {
         // bg-[]
-        behind: "#00000068", // bg-behind
         modal: "#10141f", // bg-modal
         modal_object_hover: "#ffffff20", // bg-modal_object_hover
       },
@@ -52,5 +51,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  // daisy ui config
+  daisyui: {},
 };

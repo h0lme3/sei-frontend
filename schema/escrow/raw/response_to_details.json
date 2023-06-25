@@ -10,6 +10,7 @@
     "is_coin_escrow",
     "is_complete",
     "owner",
+    "token_address",
     "token_amount"
   ],
   "properties": {
@@ -36,6 +37,9 @@
     "owner": {
       "$ref": "#/definitions/Addr"
     },
+    "token_address": {
+      "$ref": "#/definitions/Addr"
+    },
     "token_amount": {
       "$ref": "#/definitions/Uint128"
     }
@@ -48,10 +52,7 @@
     },
     "Coin": {
       "type": "object",
-      "required": [
-        "amount",
-        "denom"
-      ],
+      "required": ["amount", "denom"],
       "properties": {
         "amount": {
           "$ref": "#/definitions/Uint128"
@@ -63,10 +64,7 @@
     },
     "Cw20CoinVerified": {
       "type": "object",
-      "required": [
-        "address",
-        "amount"
-      ],
+      "required": ["address", "amount"],
       "properties": {
         "address": {
           "$ref": "#/definitions/Addr"
@@ -78,10 +76,7 @@
     },
     "GenericBalance": {
       "type": "object",
-      "required": [
-        "cw20",
-        "native"
-      ],
+      "required": ["cw20", "native"],
       "properties": {
         "cw20": {
           "type": "array",

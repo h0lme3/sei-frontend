@@ -31,7 +31,7 @@ const WalletDropDown = ({ className = "" }: ExtraTWClassProps) => {
     {
       name: "Change Wallet",
       action: () => {
-        openWalletModal();
+        openWalletModal("wallet_connect");
         closeDropdown();
       },
     },
@@ -46,7 +46,10 @@ const WalletDropDown = ({ className = "" }: ExtraTWClassProps) => {
 
   return (
     <div ref={ref}>
-      <Button action={() => (wallet ? setDisplayDropdown(!displayDropdown) : openWalletModal())} className={className}>
+      <Button
+        action={() => (wallet ? setDisplayDropdown(!displayDropdown) : openWalletModal("wallet_connect"))}
+        className={className}
+      >
         {wallet ? (
           <Row>
             {!!walletId && (

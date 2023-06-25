@@ -4,24 +4,27 @@ import { FaPlus } from "react-icons/fa";
 
 import { Button, Col, Container, Row } from "components";
 import { useMain, useWallet } from "contexts";
+import { useCosmWasmClient, useSigningCosmWasmClient } from "hooks";
 import { COUNTER, executeContract, handleErrors, handleSuccess, queryContract } from "utils";
 
 const CounterView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType } = useMain();
-  const { senderAddress, wallet, client, getClient } = useWallet();
+  const { senderAddress, wallet } = useWallet();
+  const { cosmWasmClient } = useCosmWasmClient();
+  const { signingCosmWasmClient } = useSigningCosmWasmClient();
 
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     fetchCount();
-  }, [wallet]);
+  }, [cosmWasmClient]);
 
   const fetchCount = async () => {
+    if (!cosmWasmClient) return;
     try {
       setIsLoading(true);
-      const client = await getClient();
       const msg = { get_count: {} };
-      const { count } = await queryContract(client, msg, COUNTER);
+      const { count } = await queryContract(cosmWasmClient, msg, COUNTER);
       setCount(count);
     } catch (error) {
       handleErrors(error);
@@ -30,15 +33,15 @@ const CounterView = () => {
     }
   };
 
-  const incrementOrResetCounter = async (type: string) => {
-    if (!client || !senderAddress) return;
+  const handleIncrementOrResetCounter = async (type: string) => {
+    if (!signingCosmWasmClient || !senderAddress) return;
     try {
       setButtonType(type);
       setIsLoading(true);
       const incrementMsg = { increment: {} };
       const resetMsg = { reset: { count: 0 } };
-      const msg = type === "plus" ? incrementMsg : resetMsg;
-      const response = await executeContract(client, senderAddress, msg, COUNTER);
+      const msg = type === "plus_count" ? incrementMsg : resetMsg;
+      const response = await executeContract(signingCosmWasmClient, senderAddress, msg, COUNTER);
       handleSuccess(response);
     } catch (error) {
       handleErrors(error);
@@ -56,10 +59,16 @@ const CounterView = () => {
         </Col>
         {wallet && (
           <Row>
-            <Button action={() => incrementOrResetCounter("plus")} isLoading={isLoading && buttonType === "plus"}>
+            <Button
+              action={() => handleIncrementOrResetCounter("plus_count")}
+              isLoading={isLoading && buttonType === "plus_count"}
+            >
               <FaPlus size={25} />
             </Button>
-            <Button action={() => incrementOrResetCounter("reset")} isLoading={isLoading && buttonType === "reset"}>
+            <Button
+              action={() => handleIncrementOrResetCounter("reset_count")}
+              isLoading={isLoading && buttonType === "reset_count"}
+            >
               Reset
             </Button>
           </Row>

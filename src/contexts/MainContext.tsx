@@ -6,6 +6,10 @@ export const MainContext = createContext({
   setIsLoading: (value: boolean) => {
     value;
   },
+  modalType: "",
+  setModalType: (value: string) => {
+    value;
+  },
   buttonType: "",
   setButtonType: (value: string) => {
     value;
@@ -15,9 +19,10 @@ export const MainContext = createContext({
 export const MainProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [buttonType, setButtonType] = useState<string>("");
+  const [modalType, setModalType] = useState<string>("");
 
   return (
-    <MainContext.Provider value={{ isLoading, setIsLoading, buttonType, setButtonType }}>
+    <MainContext.Provider value={{ isLoading, setIsLoading, buttonType, setButtonType, modalType, setModalType }}>
       {children}
     </MainContext.Provider>
   );

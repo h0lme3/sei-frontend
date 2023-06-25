@@ -1,11 +1,11 @@
 import type { FC, PropsWithChildren } from "react";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-import { SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
-import { WalletConnect, connect, getCosmWasmClient, getSigningCosmWasmClient } from "@sei-js/core";
+import { WalletConnect, connect } from "@sei-js/core";
 
+import { useMain } from "./MainContext";
 import { WalletConnectModal } from "components";
-import { chainId, getWalletId, handleErrors, rpcUrl, wallets } from "utils";
+import { chainId, getWalletId, handleErrors, wallets } from "utils";
 
 // create context
 export const WalletContext = createContext({
@@ -13,11 +13,9 @@ export const WalletContext = createContext({
   isWalletModalOpen: false,
   walletId: 0,
   wallet: null as WalletConnect | null,
-  client: null as SigningCosmWasmClient | null,
-  getClient: async () => {
-    return await getCosmWasmClient(rpcUrl);
+  openWalletModal: (value: string) => {
+    value;
   },
-  openWalletModal: () => {},
   closeWalletModal: () => {},
   disconnectWallet: () => {},
 });
@@ -27,8 +25,8 @@ export interface WalletProviderProps extends PropsWithChildren {
 }
 
 export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect = false }) => {
+  const { modalType, setModalType } = useMain();
   const [senderAddress, setSenderAddress] = useState<string>("");
-  const [client, setClient] = useState<SigningCosmWasmClient | null>(null);
   const [wallet, setWallet] = useState<WalletConnect | null>(null);
   const [walletId, setWalletId] = useState<number>(0);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
@@ -36,18 +34,6 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
   useEffect(() => {
     autoConnect && autoConnectWallet();
   }, [autoConnect]);
-
-  const getClient = useMemo(
-    () => async () => {
-      if (!wallet) {
-        return await getCosmWasmClient(rpcUrl);
-      }
-      const client = await getSigningCosmWasmClient(rpcUrl, wallet.offlineSigner);
-      setClient(client);
-      return client;
-    },
-    [wallet, rpcUrl]
-  );
 
   const autoConnectWallet = async () => {
     const walletId = getWalletId();
@@ -68,7 +54,10 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
     }
   };
 
-  const openWalletModal = () => setIsWalletModalOpen(true);
+  const openWalletModal = (type: string) => {
+    setIsWalletModalOpen(true);
+    setModalType(type);
+  };
   const closeWalletModal = () => setIsWalletModalOpen(false);
   const disconnectWallet = () => {
     setWallet(null);
@@ -82,15 +71,13 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
         wallet,
         walletId,
         isWalletModalOpen,
-        client,
-        getClient,
         openWalletModal,
         closeWalletModal,
         disconnectWallet,
       }}
     >
       {children}
-      <WalletConnectModal connectWallet={connectWallet} />
+      {modalType === "wallet_connect" && <WalletConnectModal connectWallet={connectWallet} />}
     </WalletContext.Provider>
   );
 };

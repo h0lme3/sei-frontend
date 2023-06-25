@@ -5,11 +5,7 @@
     {
       "type": "object",
       "required": ["create"],
-      "properties": {
-        "create": {
-          "$ref": "#/definitions/CreateMsg"
-        }
-      },
+      "properties": { "create": { "$ref": "#/definitions/CreateMsg" } },
       "additionalProperties": false
     },
     {
@@ -19,13 +15,7 @@
         "cancel": {
           "type": "object",
           "required": ["id"],
-          "properties": {
-            "id": {
-              "type": "integer",
-              "format": "uint32",
-              "minimum": 0.0
-            }
-          },
+          "properties": { "id": { "type": "integer", "format": "uint32", "minimum": 0 } },
           "additionalProperties": false
         }
       },
@@ -34,11 +24,7 @@
     {
       "type": "object",
       "required": ["approve"],
-      "properties": {
-        "approve": {
-          "$ref": "#/definitions/ApproveMsg"
-        }
-      },
+      "properties": { "approve": { "$ref": "#/definitions/ApproveMsg" } },
       "additionalProperties": false
     }
   ],
@@ -51,47 +37,23 @@
       "type": "object",
       "required": ["id"],
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "uint32",
-          "minimum": 0.0
-        },
-        "token": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/TokenMsg"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
+        "id": { "type": "integer", "format": "uint32", "minimum": 0 },
+        "token": { "anyOf": [{ "$ref": "#/definitions/TokenMsg" }, { "type": "null" }] }
       },
       "additionalProperties": false
     },
     "CreateMsg": {
       "type": "object",
       "required": ["amount", "token"],
-      "properties": {
-        "amount": {
-          "$ref": "#/definitions/Uint128"
-        },
-        "token": {
-          "$ref": "#/definitions/TokenMsg"
-        }
-      },
+      "properties": { "amount": { "$ref": "#/definitions/Uint128" }, "token": { "$ref": "#/definitions/TokenMsg" } },
       "additionalProperties": false
     },
     "TokenMsg": {
       "type": "object",
       "required": ["amount", "token_address"],
       "properties": {
-        "amount": {
-          "$ref": "#/definitions/Uint128"
-        },
-        "token_address": {
-          "$ref": "#/definitions/Addr"
-        }
+        "amount": { "$ref": "#/definitions/Uint128" },
+        "token_address": { "$ref": "#/definitions/Addr" }
       },
       "additionalProperties": false
     },

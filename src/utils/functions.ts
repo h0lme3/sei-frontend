@@ -1,19 +1,21 @@
 import { Coin } from "@cosmjs/amino";
-import { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
+import type { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Notification } from "components";
 import { COUNTER, ESCROWS, TOKEN, counterAddress, escrowsAddress, fee, tokenAddress } from "./constants";
 
-export const returnContractType = (contractType: string) => {
-  switch (contractType) {
+export const chooseAddress = (address: string) => {
+  switch (address) {
     case COUNTER:
       return counterAddress;
     case ESCROWS:
       return escrowsAddress;
     case TOKEN:
       return tokenAddress;
+    case address:
+      return address;
     default:
-      throw new Error(`Contract type ${contractType} is not supported.`);
+      throw new Error(`Address ${address} is not supported.`);
   }
 };
 
@@ -21,21 +23,16 @@ export const executeContract = async (
   client: SigningCosmWasmClient,
   senderAddress: string,
   msg: unknown,
-  contractType: string,
+  address: string,
   funds?: Coin[]
 ) => {
-  const contractAddress = returnContractType(contractType);
+  const contractAddress = chooseAddress(address);
   const response = await client.execute(senderAddress, contractAddress, msg, fee, "", funds);
   return response;
 };
 
-export const queryContract = async (
-  client: SigningCosmWasmClient | CosmWasmClient,
-  msg: unknown,
-  contractType: string
-) => {
-  const contractAddress = returnContractType(contractType);
-  console.log(contractAddress, "contractAddress");
+export const queryContract = async (client: SigningCosmWasmClient | CosmWasmClient, msg: unknown, address: string) => {
+  const contractAddress = chooseAddress(address);
   const response = await client.queryContractSmart(contractAddress, msg);
   return response;
 };
