@@ -9,15 +9,14 @@ import { Button, Col, Container, CreateEscrowModal, Row } from "components";
 import { useMain, useWallet } from "contexts";
 import { useCosmWasmClient, useSigningCosmWasmClient } from "hooks";
 import {
-  ESCROWS,
+  ESCROWS_ADDRESS,
+  Native_Token_Decimals,
+  TOKEN_ADDRESS,
   executeContract,
   handleErrors,
   handleSuccess,
   queryContract,
   shortenWalletAddress,
-  Native_Token_Decimals,
-  TOKEN,
-  tokenAddress,
 } from "utils";
 import type { EscrowsDetailsProps, TokenDetailProps } from "types";
 
@@ -39,7 +38,7 @@ const EscrowsView = () => {
 
   const getEscrowDetailsByID = async (cosmWasmClient: CosmWasmClient, id: number): Promise<EscrowsDetailsProps> => {
     const msg = { details: { id } };
-    const response = await queryContract(cosmWasmClient, msg, ESCROWS);
+    const response = await queryContract(cosmWasmClient, msg, ESCROWS_ADDRESS);
     return response;
   };
 
@@ -48,7 +47,7 @@ const EscrowsView = () => {
     try {
       setIsLoading(true);
       const msg = { list: {} };
-      const { escrows } = await queryContract(cosmWasmClient, msg, ESCROWS);
+      const { escrows } = await queryContract(cosmWasmClient, msg, ESCROWS_ADDRESS);
       const escrowsIds: number[] = escrows.map((escrow: Pick<EscrowsDetailsProps, "id">) => escrow.id);
       const escrowsDetails = await Promise.all(
         escrowsIds.map((escrow, index) => getEscrowDetailsByID(cosmWasmClient, index + 1))
@@ -66,7 +65,7 @@ const EscrowsView = () => {
     try {
       setIsLoading(true);
       const msg = { token_info: {} };
-      await queryContract(cosmWasmClient, msg, TOKEN).then(setTokenDetail);
+      await queryContract(cosmWasmClient, msg, TOKEN_ADDRESS).then(setTokenDetail);
     } catch (error) {
       handleErrors(error);
     } finally {
@@ -85,14 +84,14 @@ const EscrowsView = () => {
         approve: {
           id,
           token: {
-            token_address: tokenAddress,
+            token_address: TOKEN_ADDRESS,
             amount,
           },
         },
       };
       const cancelMsg = { cancel: { id } };
       const msg = type === "approve" ? approveMsg : cancelMsg;
-      const response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS);
+      const response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS_ADDRESS);
       handleSuccess(response);
     } catch (error) {
       handleErrors(error);

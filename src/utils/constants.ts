@@ -6,17 +6,13 @@ import { SeoProps, WalletInfoProps } from "types";
 export const chainId = process.env.NEXT_PUBLIC_CHAIN_ID as string;
 export const restUrl = process.env.NEXT_PUBLIC_REST_URL as string;
 export const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL as string;
-export const counterAddress = process.env.NEXT_PUBLIC_COUNTER_ADDRESS as string;
-export const escrowsAddress = process.env.NEXT_PUBLIC_ESCROWS_ADDRESS as string;
-export const tokenAddress = process.env.NEXT_PUBLIC_TOKEN_ADDRESS as string;
+export const COUNTER_ADDRESS = process.env.NEXT_PUBLIC_COUNTER_ADDRESS as string;
+export const ESCROWS_ADDRESS = process.env.NEXT_PUBLIC_ESCROWS_ADDRESS as string;
+export const TOKEN_ADDRESS = process.env.NEXT_PUBLIC_TOKEN_ADDRESS as string;
 
 export const FLOAT_NUM_REGEX = "/^[+-]?d+(.d+)?$/";
 
 export const Native_Token_Decimals = 6;
-
-export const COUNTER = "counter";
-export const ESCROWS = "escrows";
-export const TOKEN = "token";
 
 export const ESCROW_RADIO = ["sei-token", "token-sei"];
 

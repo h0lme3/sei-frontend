@@ -2,37 +2,20 @@ import { Coin } from "@cosmjs/amino";
 import type { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Notification } from "components";
-import { COUNTER, ESCROWS, TOKEN, counterAddress, escrowsAddress, fee, tokenAddress } from "./constants";
-
-export const chooseAddress = (address: string) => {
-  switch (address) {
-    case COUNTER:
-      return counterAddress;
-    case ESCROWS:
-      return escrowsAddress;
-    case TOKEN:
-      return tokenAddress;
-    case address:
-      return address;
-    default:
-      throw new Error(`Address ${address} is not supported.`);
-  }
-};
+import { fee } from "./constants";
 
 export const executeContract = async (
   client: SigningCosmWasmClient,
   senderAddress: string,
   msg: unknown,
-  address: string,
+  contractAddress: string,
   funds?: Coin[]
 ) => {
-  const contractAddress = chooseAddress(address);
   const response = await client.execute(senderAddress, contractAddress, msg, fee, "", funds);
   return response;
 };
 
-export const queryContract = async (client: SigningCosmWasmClient | CosmWasmClient, msg: unknown, address: string) => {
-  const contractAddress = chooseAddress(address);
+export const queryContract = async (client: CosmWasmClient, msg: unknown, contractAddress: string) => {
   const response = await client.queryContractSmart(contractAddress, msg);
   return response;
 };

@@ -5,7 +5,7 @@ import { FaPlus } from "react-icons/fa";
 import { Button, Col, Container, Row } from "components";
 import { useMain, useWallet } from "contexts";
 import { useCosmWasmClient, useSigningCosmWasmClient } from "hooks";
-import { COUNTER, executeContract, handleErrors, handleSuccess, queryContract } from "utils";
+import { COUNTER_ADDRESS, executeContract, handleErrors, handleSuccess, queryContract } from "utils";
 
 const CounterView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType } = useMain();
@@ -24,7 +24,7 @@ const CounterView = () => {
     try {
       setIsLoading(true);
       const msg = { get_count: {} };
-      const { count } = await queryContract(cosmWasmClient, msg, COUNTER);
+      const { count } = await queryContract(cosmWasmClient, msg, COUNTER_ADDRESS);
       setCount(count);
     } catch (error) {
       handleErrors(error);
@@ -41,7 +41,7 @@ const CounterView = () => {
       const incrementMsg = { increment: {} };
       const resetMsg = { reset: { count: 0 } };
       const msg = type === "plus_count" ? incrementMsg : resetMsg;
-      const response = await executeContract(signingCosmWasmClient, senderAddress, msg, COUNTER);
+      const response = await executeContract(signingCosmWasmClient, senderAddress, msg, COUNTER_ADDRESS);
       handleSuccess(response);
     } catch (error) {
       handleErrors(error);

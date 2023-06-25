@@ -1,6 +1,7 @@
 import type { ChangeEvent, KeyboardEvent } from "react";
 import React, { useState } from "react";
 
+import bigInt from "big-integer";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { coins } from "@cosmjs/amino";
 
@@ -8,17 +9,16 @@ import { Button, Col, Modal, Row } from "components";
 import { useMain, useWallet } from "contexts";
 import { useCosmWasmClient, useSigningCosmWasmClient } from "hooks";
 import {
-  ESCROWS,
+  ESCROWS_ADDRESS,
   ESCROW_RADIO,
   FLOAT_NUM_REGEX,
+  TOKEN_ADDRESS,
   executeContract,
   handleErrors,
   handleSuccess,
   queryContract,
-  tokenAddress,
 } from "utils";
 import type { TokenDetailProps } from "types";
-import bigInt from "big-integer";
 
 const CreateEscrowModal = ({ fetchEscrowsList = () => {} }) => {
   const { wallet, senderAddress, closeWalletModal } = useWallet();
@@ -75,11 +75,11 @@ const CreateEscrowModal = ({ fetchEscrowsList = () => {} }) => {
             amount: token_amount,
             token: {
               amount: token_amount,
-              token_address: tokenAddress,
+              token_address: TOKEN_ADDRESS,
             },
           },
         };
-        response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS, funds);
+        response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS_ADDRESS, funds);
       } else {
         // token-sei
         // todo: not sure how can I pass correct msg(i.e. token amount, token address, usei amount, usei address) even tho I can get all values.
@@ -88,11 +88,11 @@ const CreateEscrowModal = ({ fetchEscrowsList = () => {} }) => {
             amount: token_amount,
             token: {
               amount: token_amount,
-              token_address: tokenAddress,
+              token_address: TOKEN_ADDRESS,
             },
           },
         };
-        response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS);
+        response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS_ADDRESS);
       }
       handleSuccess(response);
     } catch (error) {
