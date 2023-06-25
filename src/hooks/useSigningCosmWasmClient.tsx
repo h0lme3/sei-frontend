@@ -17,7 +17,7 @@ export const useSigningCosmWasmClient = () => {
         await getSigningCosmWasmClient(rpcUrl, wallet?.offlineSigner).then(setClient);
       })();
     }
-  }, [wallet, rpcUrl]);
+  }, [wallet]);
 
   return { signingCosmWasmClient: client };
 };
