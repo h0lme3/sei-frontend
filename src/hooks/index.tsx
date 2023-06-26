@@ -1,2 +1,2 @@
-export * from "./useCosmWasmClient";
-export * from "./useSigningCosmWasmClient";
+export * from "./client/useCosmWasmClient";
+export * from "./client/useSigningCosmWasmClient";

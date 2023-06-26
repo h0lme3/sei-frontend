@@ -2,7 +2,7 @@ import { Coin } from "@cosmjs/amino";
 import type { CosmWasmClient, SigningCosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Notification } from "components";
-import { fee } from "./constants";
+import { FEE } from "./constants";
 
 export const executeContract = async (
   client: SigningCosmWasmClient,
@@ -11,7 +11,7 @@ export const executeContract = async (
   contractAddress: string,
   funds?: Coin[]
 ) => {
-  const response = await client.execute(senderAddress, contractAddress, msg, fee, "", funds);
+  const response = await client.execute(senderAddress, contractAddress, msg, FEE, "", funds);
   return response;
 };
 

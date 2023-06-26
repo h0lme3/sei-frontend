@@ -5,7 +5,7 @@ import { WalletConnect, connect } from "@sei-js/core";
 
 import { useMain } from "./MainContext";
 import { WalletConnectModal } from "components";
-import { chainId, getWalletId, handleErrors, wallets } from "utils";
+import { chainId, getWalletId, handleErrors, WALLET_LIST } from "utils";
 
 // create context
 export const WalletContext = createContext({
@@ -42,7 +42,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
 
   const connectWallet = async (walletId: number) => {
     try {
-      const wallet = await connect(wallets[walletId - 1].name, chainId);
+      const wallet = await connect(WALLET_LIST[walletId - 1].name, chainId);
       localStorage.setItem("walletId", JSON.stringify(walletId));
       setWallet(wallet);
       setWalletId(walletId);

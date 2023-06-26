@@ -3,6 +3,7 @@ import React, { useEffect, useState, memo } from "react";
 import bigInt from "big-integer";
 import { AiOutlineCheck } from "react-icons/ai";
 import { BsClipboard } from "react-icons/bs";
+import { coins } from "@cosmjs/amino";
 import type { CosmWasmClient } from "@cosmjs/cosmwasm-stargate";
 
 import { Button, Col, Container, CreateEscrowModal, Row } from "components";
@@ -10,7 +11,7 @@ import { useMain, useWallet } from "contexts";
 import { useCosmWasmClient, useSigningCosmWasmClient } from "hooks";
 import {
   ESCROWS_ADDRESS,
-  Native_Token_Decimals,
+  USEI_DECIMALS,
   TOKEN_ADDRESS,
   executeContract,
   handleErrors,
@@ -75,8 +76,10 @@ const EscrowsView = () => {
 
   const handleApproveOrCancelEscrow = async (id: number, type: string) => {
     if (!signingCosmWasmClient || !senderAddress) return;
-    const amount = bigInt(escrowsDetails[id - 1].token_amount);
-    // const amount = escrowsDetails[id - 1].token_amount;
+    const escrows = escrowsDetails[id - 1];
+    const token_amount = bigInt(escrows.token_amount);
+    const sei_amount = escrows.coin_amount;
+    const funds = !escrows.is_coin_escrow ? coins(sei_amount, "usei") : undefined;
     try {
       setButtonType(type);
       setIsLoading(true);
@@ -85,13 +88,23 @@ const EscrowsView = () => {
           id,
           token: {
             token_address: TOKEN_ADDRESS,
-            amount,
+            amount: token_amount,
           },
         },
       };
       const cancelMsg = { cancel: { id } };
-      const msg = type === "approve" ? approveMsg : cancelMsg;
-      const response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS_ADDRESS);
+      if (type === "approve_escrow" && escrows.is_coin_escrow) {
+        const allowanceMsg = {
+          increase_allowance: {
+            spender: ESCROWS_ADDRESS,
+            amount: token_amount,
+            expires: null,
+          },
+        };
+        await executeContract(signingCosmWasmClient, senderAddress, allowanceMsg, TOKEN_ADDRESS);
+      }
+      const msg = type === "approve_escrow" ? approveMsg : cancelMsg;
+      const response = await executeContract(signingCosmWasmClient, senderAddress, msg, ESCROWS_ADDRESS, funds);
       handleSuccess(response);
     } catch (error) {
       handleErrors(error);
@@ -128,16 +141,20 @@ const EscrowsView = () => {
                   key={`escrow_${index}`}
                   className="justify-between max-w-[450px] w-full bg-[#121212] rounded-lg px-6 tablet:px-2 py-8 tablet:py-4"
                 >
-                  <Row className="text-[18px]">
+                  <Row className="text-[18px] mobile:flex-col mobile:space-x-0">
                     <div className="text-[64px]">{escrow.id}</div>
                     <Col className="w-full">
+                      <Row className="justify-between">
+                        <b>Escrow Type: </b>
+                        <p>{escrow.is_coin_escrow ? "SEI-TOKEN" : "TOKEN-SEI"}</p>
+                      </Row>
                       <Row className="justify-between">
                         <b>Owner: </b>
                         <Row className="space-x-1">
                           <p> {shortenWalletAddress(escrow.owner, 6)}</p>
                           <sup>
                             {copied && clipboardIndex === `clipboard${escrow.id}` ? (
-                              <AiOutlineCheck color="lightgreen" size={15} className="cursor-pointer" />
+                              <AiOutlineCheck color="#2bff00" size={15} className="cursor-pointer" />
                             ) : (
                               <BsClipboard
                                 color="white"
@@ -150,14 +167,14 @@ const EscrowsView = () => {
                         </Row>
                       </Row>
                       <Row className="justify-between">
-                        <b>Coin Amount (SEI): </b>{" "}
-                        <p>{(escrow.coin_amount / 10 ** Native_Token_Decimals).toLocaleString()}</p>
+                        <b>Coin Amount (SEI): </b>
+                        <p>{(escrow.coin_amount / 10 ** USEI_DECIMALS).toLocaleString()}</p>
                       </Row>
                       {tokenDetail && (
                         <Row className="justify-between mobile:flex-col">
                           <b className="self-start">
-                            Token Amount <span> ({tokenDetail.symbol})</span>:{" "}
-                          </b>{" "}
+                            Token Amount <span> ({tokenDetail.symbol}) </span>:
+                          </b>
                           <p className="self-end">
                             {(Number(escrow.token_amount) / 10 ** tokenDetail.decimals).toLocaleString("en", {
                               minimumFractionDigits: 5,

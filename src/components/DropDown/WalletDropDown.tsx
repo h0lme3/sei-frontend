@@ -5,7 +5,7 @@ import { useDetectClickOutside } from "react-detect-click-outside";
 
 import { Button, Row } from "components";
 import { useWallet } from "contexts";
-import { shortenWalletAddress, wallets } from "utils";
+import { shortenWalletAddress, WALLET_LIST } from "utils";
 import type { ExtraTWClassProps } from "types";
 
 const WalletDropDown = ({ className = "" }: ExtraTWClassProps) => {
@@ -53,7 +53,13 @@ const WalletDropDown = ({ className = "" }: ExtraTWClassProps) => {
         {wallet ? (
           <Row>
             {!!walletId && (
-              <Image src={wallets[walletId - 1].src} alt={wallets[walletId - 1].name} width={24} height={24} priority />
+              <Image
+                src={WALLET_LIST[walletId - 1].src}
+                alt={WALLET_LIST[walletId - 1].name}
+                width={24}
+                height={24}
+                priority
+              />
             )}
             <p>{shortenWalletAddress(senderAddress)}</p>
           </Row>

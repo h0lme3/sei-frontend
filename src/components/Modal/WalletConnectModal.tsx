@@ -2,7 +2,7 @@ import React, { type FC } from "react";
 import Image from "next/image";
 
 import { Col, Row, Modal } from "components";
-import { wallets } from "utils";
+import { WALLET_LIST } from "utils";
 
 interface WalletConnectModalProps {
   connectWallet: (walletTypeId: number) => void;
@@ -15,7 +15,7 @@ const WalletConnectModal: FC<WalletConnectModalProps> = ({ connectWallet }) => {
         <p className="px-14 pb-12 text-[24px] mobile:text-[20px] text-center font-medium">
           Connect a wallet on SEI to continue
         </p>
-        {wallets.map((wallet, index) => (
+        {WALLET_LIST.map((wallet, index) => (
           <Row
             key={`wallet_${index}`}
             action={() => connectWallet(index + 1)}

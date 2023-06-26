@@ -12,19 +12,19 @@ export const TOKEN_ADDRESS = process.env.NEXT_PUBLIC_TOKEN_ADDRESS as string;
 
 export const FLOAT_NUM_REGEX = "/^[+-]?d+(.d+)?$/";
 
-export const Native_Token_Decimals = 6;
+export const USEI_DECIMALS = 6;
 
 export const ESCROW_RADIO = ["sei-token", "token-sei"];
 
 // export const ESCROW_AMOUNT = bigInt("100000000000000"); // 1e14
 // export const ESCROW_AMOUNT = bigInt("1000000000000000000"); // 1e18
 
-export const fee = {
+export const FEE = {
   amount: coins(10000, "usei"), // amount: 10,000 - 0.1 sei
   gas: "300000", // gas: 300,000 - 0.006 sei
 };
 
-export const wallets: WalletInfoProps[] = [
+export const WALLET_LIST: WalletInfoProps[] = [
   { name: "leap", src: require("assets/leap.png") },
   { name: "keplr", src: require("assets/keplr.png") },
   { name: "fin", src: require("assets/fin.png") },
