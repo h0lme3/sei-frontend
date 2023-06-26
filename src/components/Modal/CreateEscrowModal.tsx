@@ -146,8 +146,8 @@ const CreateEscrowModal = ({ fetchEscrowsList = () => {} }) => {
     <Modal>
       <Col className="p-4 space-y-4">
         <p className="px-14 mobile:px-8 pb-12 text-[24px] mobile:text-[20px] text-center font-medium">
-          You can escrow your {escrowTokenForm.escrowType === ESCROW_RADIO[0] ? "SEI" : "Token"} to get{" "}
-          {escrowTokenForm.escrowType === ESCROW_RADIO[0] ? "Token" : "SEI"}
+          You can escrow your {escrowTokenForm.escrowType === ESCROW_RADIO[0] ? "SEI" : "CW20"} to get{" "}
+          {escrowTokenForm.escrowType === ESCROW_RADIO[0] ? "CW20" : "SEI"}
         </p>
         <Row>
           {ESCROW_RADIO.map((name) => (

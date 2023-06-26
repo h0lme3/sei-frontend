@@ -139,18 +139,18 @@ const EscrowsView = () => {
               escrowsDetails.map((escrow, index) => (
                 <Col
                   key={`escrow_${index}`}
-                  className="justify-between max-w-[450px] w-full bg-[#121212] rounded-lg px-6 tablet:px-2 py-8 tablet:py-4"
+                  className="justify-between max-w-[450px] w-full bg-[#121212] rounded-lg px-6 py-8 tablet:py-4"
                 >
                   <Row className="text-[18px] mobile:flex-col mobile:space-x-0">
                     <div className="text-[64px]">{escrow.id}</div>
                     <Col className="w-full">
                       <Row className="justify-between">
                         <b>Escrow Type: </b>
-                        <p>{escrow.is_coin_escrow ? "SEI-TOKEN" : "TOKEN-SEI"}</p>
+                        <p>{escrow.is_coin_escrow ? "SEI-CW20" : "CW20-SEI"}</p>
                       </Row>
                       <Row className="justify-between">
                         <b>Owner: </b>
-                        <Row className="space-x-1">
+                        <Row className="space-x-[1px]">
                           <p> {shortenWalletAddress(escrow.owner, 6)}</p>
                           <sup>
                             {copied && clipboardIndex === `clipboard${escrow.id}` ? (
@@ -167,15 +167,15 @@ const EscrowsView = () => {
                         </Row>
                       </Row>
                       <Row className="justify-between">
-                        <b>Coin Amount (SEI): </b>
+                        <b>SEI: </b>
                         <p>{(escrow.coin_amount / 10 ** USEI_DECIMALS).toLocaleString()}</p>
                       </Row>
                       {tokenDetail && (
-                        <Row className="justify-between mobile:flex-col">
-                          <b className="self-start">
-                            Token Amount <span> ({tokenDetail.symbol}) </span>:
+                        <Row className="justify-between">
+                          <b>
+                            <span>{tokenDetail.symbol} </span>:
                           </b>
-                          <p className="self-end">
+                          <p>
                             {(Number(escrow.token_amount) / 10 ** tokenDetail.decimals).toLocaleString("en", {
                               minimumFractionDigits: 5,
                             })}

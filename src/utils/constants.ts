@@ -14,7 +14,7 @@ export const FLOAT_NUM_REGEX = "/^[+-]?d+(.d+)?$/";
 
 export const USEI_DECIMALS = 6;
 
-export const ESCROW_RADIO = ["sei-token", "token-sei"];
+export const ESCROW_RADIO = ["sei-cw20", "cw20-sei"];
 
 // export const ESCROW_AMOUNT = bigInt("100000000000000"); // 1e14
 // export const ESCROW_AMOUNT = bigInt("1000000000000000000"); // 1e18
