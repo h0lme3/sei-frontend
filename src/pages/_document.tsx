@@ -2,6 +2,8 @@ import type { DocumentContext, DocumentInitialProps } from "next/document";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import Script from "next/script";
 
+import { Partytown } from "@builder.io/partytown/react";
+
 const gtag = `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`;
 export default class CustomDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -43,13 +45,14 @@ export default class CustomDocument extends Document {
 
           {/* icon */}
           <link rel="icon" href="/sola-x.ico" type="image/ico" />
-
+          <Partytown debug={true} forward={["dataLayer.push"]} />
           {/* google tagmanager and google analytics*/}
           {process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID && (
             <>
-              <Script async src={gtag} strategy="beforeInteractive" />
+              <Script async type="text/partytown" src={gtag} strategy="beforeInteractive" />
               <Script
                 id="google-analytics"
+                type="text/partytown"
                 dangerouslySetInnerHTML={{
                   __html: `
               window.dataLayer = window.dataLayer || [];
