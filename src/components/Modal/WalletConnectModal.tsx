@@ -1,12 +1,9 @@
-import React, { type FC } from "react";
+import React from "react";
 import Image from "next/image";
 
 import { Col, Row, Modal } from "components";
 import { WALLET_LIST } from "utils";
-
-interface WalletConnectModalProps {
-  connectWallet: (walletTypeId: number) => void;
-}
+import type { FC, WalletConnectModalProps } from "types";
 
 const WalletConnectModal: FC<WalletConnectModalProps> = ({ connectWallet }) => {
   return (

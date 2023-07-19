@@ -1,11 +1,10 @@
-import type { FC, PropsWithChildren } from "react";
 import React from "react";
 
 import { ClipLoader } from "react-spinners";
 
-import type { ButtonProps, ExtraTWClassProps } from "types";
+import type { ButtonProps, FC } from "types";
 
-const Button: FC<PropsWithChildren & ButtonProps & ExtraTWClassProps> = ({
+const Button: FC<ButtonProps> = ({
   children,
   action,
   disabled = false,

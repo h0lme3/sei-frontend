@@ -36,26 +36,40 @@ export const WALLET_LIST: WalletInfoProps[] = [
 export const MENU_LIST = [
   { name: "counter", path: "/counter" },
   { name: "escrows", path: "/escrows" },
+  { name: "vault", path: "/vault" },
+  { name: "weight pool", path: "/weight-pool" },
 ];
 
 export const SEO_LIST: { [unknown: string]: SeoProps } = {
   default: {
-    title: "SEI | SOLA-X",
+    title: "Home",
     description: "Smart liquidity protocol powered by Solana.",
     image: "/preview/default.png",
     canonical: "default",
   },
   counter: {
-    title: "SEI-Counter | SOLA-X",
+    title: "Counter | SOLA-X",
     description: "Smart liquidity protocol powered by Solana.",
     image: "/preview/default.png",
     canonical: "counter",
   },
   escrows: {
-    title: "SEI-ESCROW | SOLA-X",
+    title: "Escrows | SOLA-X",
     description: "Smart liquidity protocol powered by Solana.",
     image: "/preview/default.png",
     canonical: "escrows",
+  },
+  vault: {
+    title: "Vault | SOLA-X",
+    description: "Smart liquidity protocol powered by Solana.",
+    image: "/preview/default.png",
+    canonical: "vault",
+  },
+  weight_pool: {
+    title: "Weight Pool | SOLA-X",
+    description: "Smart liquidity protocol powered by Solana.",
+    image: "/preview/default.png",
+    canonical: "weight-pool",
   },
   404: {
     title: "404 | Page Not Found",

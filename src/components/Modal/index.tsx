@@ -1,23 +1,14 @@
-import type { FC, PropsWithChildren } from "react";
 import React, { useEffect } from "react";
 
 import { FaTimes } from "react-icons/fa";
 import { Transition } from "react-transition-group";
-import tw from "tailwind-styled-components";
 
+import Dialogue from "./dialogue.styled";
 import { Col, Row } from "components";
 import { useWallet } from "contexts";
+import { ComponentProps, FC } from "types";
 
-interface DialogueProps {
-  $state: string;
-}
-
-const Dialogue = tw.div<DialogueProps>`
-    /* state === exiting || exited => opacity-0 */
-    ${(props) => (props.$state === "entering" || props.$state === "entered" ? "opacity-100" : "opacity-0")}
-`;
-
-const Modal: FC<PropsWithChildren> = ({ children }) => {
+const Modal: FC<ComponentProps> = ({ children }) => {
   const { isWalletModalOpen, closeWalletModal } = useWallet();
 
   useEffect(() => {

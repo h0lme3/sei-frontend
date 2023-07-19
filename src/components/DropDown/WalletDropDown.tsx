@@ -6,9 +6,9 @@ import { useDetectClickOutside } from "react-detect-click-outside";
 import { Button, Row } from "components";
 import { useWallet } from "contexts";
 import { shortenWalletAddress, WALLET_LIST } from "utils";
-import type { ExtraTWClassProps } from "types";
+import type { ComponentProps, FC } from "types";
 
-const WalletDropDown = ({ className = "" }: ExtraTWClassProps) => {
+const WalletDropDown: FC<ComponentProps> = ({ className = "" }) => {
   const { senderAddress, wallet, walletId, openWalletModal, disconnectWallet } = useWallet();
 
   const [copied, setCopied] = useState(false);

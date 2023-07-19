@@ -1,20 +1,24 @@
-import type { MouseEventHandler } from "react";
+import type { FC, MouseEventHandler, PropsWithChildren } from "react";
 import { StaticImageData } from "next/image";
 
 import { WalletWindowKey } from "@sei-js/core";
+
+export type { FC };
 
 export interface ExtraTWClassProps {
   className?: string;
 }
 
-export interface ButtonProps {
+export type ComponentProps = PropsWithChildren<ExtraTWClassProps>;
+
+export interface ButtonProps extends ComponentProps {
   action?: MouseEventHandler<HTMLButtonElement | HTMLDivElement>;
   disabled?: boolean;
   isLoading?: boolean;
   type?: "button" | "reset" | "submit" | undefined;
 }
 
-export interface PageProps {
+export interface PageProps extends PropsWithChildren {
   name: string;
 }
 
@@ -57,4 +61,8 @@ export interface TokenDetailProps {
   symbol: string;
   decimals: number;
   total_supply: number;
+}
+
+export interface WalletConnectModalProps {
+  connectWallet: (walletTypeId: number) => void;
 }
