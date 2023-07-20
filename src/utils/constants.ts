@@ -6,8 +6,11 @@ import { SeoProps, WalletInfoProps } from "types";
 export const chainId = process.env.NEXT_PUBLIC_CHAIN_ID as string;
 export const restUrl = process.env.NEXT_PUBLIC_REST_URL as string;
 export const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL as string;
+
 export const COUNTER_ADDRESS = process.env.NEXT_PUBLIC_COUNTER_ADDRESS as string;
 export const ESCROWS_ADDRESS = process.env.NEXT_PUBLIC_ESCROWS_ADDRESS as string;
+export const VAULT_ADDRESS = process.env.NEXT_PUBLIC_VAULT_ADDRESS as string;
+export const WEIGHT_POOL_ADDRESS = process.env.NEXT_PUBLIC_WEIGHT_POOL_ADDRESS as string;
 export const TOKEN_ADDRESS = process.env.NEXT_PUBLIC_TOKEN_ADDRESS as string;
 
 export const FLOAT_NUM_REGEX = "/^[+-]?d+(.d+)?$/";
