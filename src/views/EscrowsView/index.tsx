@@ -23,7 +23,7 @@ import type { EscrowsDetailsProps, TokenDetailProps } from "types";
 
 const EscrowsView = () => {
   const { isLoading, setIsLoading, buttonType, setButtonType, modalType } = useMain();
-  const { wallet, senderAddress, openWalletModal } = useWallet();
+  const { wallet, senderAddress, openModal } = useWallet();
   const { cosmWasmClient } = useCosmWasmClient();
   const { signingCosmWasmClient } = useSigningCosmWasmClient();
 
@@ -125,14 +125,7 @@ const EscrowsView = () => {
       {modalType === "create_escrow" && <CreateEscrowModal fetchEscrowsList={fetchEscrowsList} />}
       <Container className="py-10">
         <Col className="justify-center items-center">
-          {wallet && (
-            <Button
-              action={() => openWalletModal("create_escrow")}
-              className="bg-slate-800 text-white px-4 py-2 rounded-full"
-            >
-              Create
-            </Button>
-          )}
+          {wallet && <Button action={() => openModal("create_escrow")}>Create</Button>}
           <Col className="items-center space-y-2 w-full">
             <p className="text-[36px] mobile:text-[28px] pb-8">Current Escrows</p>
             {escrowsDetails &&
@@ -190,7 +183,7 @@ const EscrowsView = () => {
                         action={() => handleApproveOrCancelEscrow(escrow.id, "approve_escrow")}
                         disabled={escrow.is_cancelled || escrow.is_complete}
                         isLoading={isLoading && buttonType === "approve_escrow"}
-                        className="flex-1 bg-slate-800 text-white px-4 py-2 rounded-full"
+                        className="flex-1"
                       >
                         Approve
                       </Button>
@@ -198,7 +191,7 @@ const EscrowsView = () => {
                         action={() => handleApproveOrCancelEscrow(escrow.id, "cancel_escrow")}
                         disabled={escrow.is_cancelled || escrow.is_complete}
                         isLoading={isLoading && buttonType === "cancel_escrow"}
-                        className="flex-1 bg-slate-800 text-white px-4 py-2 rounded-full"
+                        className="flex-1"
                       >
                         Cancel
                       </Button>

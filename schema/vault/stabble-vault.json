@@ -78,9 +78,9 @@
       },
       {
         "type": "object",
-        "required": ["update_beneficiay"],
+        "required": ["update_beneficiary"],
         "properties": {
-          "update_beneficiay": {
+          "update_beneficiary": {
             "type": "object",
             "required": ["beneficiary"],
             "properties": {

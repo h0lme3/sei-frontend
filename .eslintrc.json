@@ -5,6 +5,13 @@
     // 0 = "off", 1 = "warn", 2 = "error"
     "@typescript-eslint/no-unused-vars": 2,
     "@typescript-eslint/no-explicit-any": 1,
-    "@typescript-eslint/no-empty-function": 1
+    "@typescript-eslint/no-empty-function": 1,
+    "@typescript-eslint/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports"
+      }
+    ],
+    "react/self-closing-comp": ["error", { "component": true, "html": true }] // correct: <HelloWorld />
   }
 }

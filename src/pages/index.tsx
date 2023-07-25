@@ -13,7 +13,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const Home: NextPage = () => {
-  return <Page name="default"></Page>;
+  return <Page name="default" />;
 };
 
 export default Home;

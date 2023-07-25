@@ -1,7 +1,7 @@
 import type { FC, PropsWithChildren } from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 
-import { WalletConnect, connect } from "@sei-js/core";
+import { type WalletConnect, connect } from "@sei-js/core";
 
 import { useMain } from "./MainContext";
 import { WalletConnectModal } from "components";
@@ -13,7 +13,7 @@ export const WalletContext = createContext({
   isWalletModalOpen: false,
   walletId: 0,
   wallet: null as WalletConnect | null,
-  openWalletModal: (value: string) => {
+  openModal: (value: string) => {
     value;
   },
   closeWalletModal: () => {},
@@ -54,7 +54,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
     }
   };
 
-  const openWalletModal = (type: string) => {
+  const openModal = (type: string) => {
     setIsWalletModalOpen(true);
     setModalType(type);
   };
@@ -71,7 +71,7 @@ export const WalletProvider: FC<WalletProviderProps> = ({ children, autoConnect 
         wallet,
         walletId,
         isWalletModalOpen,
-        openWalletModal,
+        openModal,
         closeWalletModal,
         disconnectWallet,
       }}

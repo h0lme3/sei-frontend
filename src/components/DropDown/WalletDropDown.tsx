@@ -9,7 +9,7 @@ import { shortenWalletAddress, WALLET_LIST } from "utils";
 import type { ComponentProps, FC } from "types";
 
 const WalletDropDown: FC<ComponentProps> = ({ className = "" }) => {
-  const { senderAddress, wallet, walletId, openWalletModal, disconnectWallet } = useWallet();
+  const { senderAddress, wallet, walletId, openModal, disconnectWallet } = useWallet();
 
   const [copied, setCopied] = useState(false);
   const [displayDropdown, setDisplayDropdown] = useState(false);
@@ -31,7 +31,7 @@ const WalletDropDown: FC<ComponentProps> = ({ className = "" }) => {
     {
       name: "Change Wallet",
       action: () => {
-        openWalletModal("wallet_connect");
+        openModal("wallet_connect");
         closeDropdown();
       },
     },
@@ -47,7 +47,7 @@ const WalletDropDown: FC<ComponentProps> = ({ className = "" }) => {
   return (
     <div ref={ref}>
       <Button
-        action={() => (wallet ? setDisplayDropdown(!displayDropdown) : openWalletModal("wallet_connect"))}
+        action={() => (wallet ? setDisplayDropdown(!displayDropdown) : openModal("wallet_connect"))}
         className={className}
       >
         {wallet ? (

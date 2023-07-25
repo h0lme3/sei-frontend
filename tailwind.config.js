@@ -4,6 +4,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   darkMode: "class",
+  important: true,
   content: ["src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
@@ -13,6 +14,7 @@ module.exports = {
       tablet: { max: "768px" }, // tablet:
       medium: { max: "640px" }, // medium:
       mobile: { max: "430px" }, // mobile:
+      last: { max: "375px" }, // last:
     },
     extend: {
       fontFamily: {

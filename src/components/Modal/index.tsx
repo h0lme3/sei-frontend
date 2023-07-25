@@ -6,7 +6,7 @@ import { Transition } from "react-transition-group";
 import Dialogue from "./dialogue.styled";
 import { Col, Row } from "components";
 import { useWallet } from "contexts";
-import { ComponentProps, FC } from "types";
+import type { ComponentProps, FC } from "types";
 
 const Modal: FC<ComponentProps> = ({ children }) => {
   const { isWalletModalOpen, closeWalletModal } = useWallet();

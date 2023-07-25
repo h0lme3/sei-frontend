@@ -1,7 +1,7 @@
 import type { FC, MouseEventHandler, PropsWithChildren } from "react";
-import { StaticImageData } from "next/image";
+import type { StaticImageData } from "next/image";
 
-import { WalletWindowKey } from "@sei-js/core";
+import type { WalletWindowKey } from "@sei-js/core";
 
 export type { FC };
 
@@ -54,6 +54,20 @@ export interface EscrowsDetailsProps {
     cw20: Array<number>;
     native: Array<{ demo: string; amount: string }>;
   };
+}
+
+export interface PoolsDetailsProps {
+  id: number;
+}
+
+export interface VaultDetailsProps {
+  admin: string;
+  arbitrageur: string;
+  beneficiary: string;
+  delegator: string;
+  uis_active: boolean;
+  pool_stable_authority: string;
+  pool_weighted_authority: string;
 }
 
 export interface TokenDetailProps {
